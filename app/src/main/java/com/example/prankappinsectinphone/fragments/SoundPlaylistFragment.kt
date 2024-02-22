@@ -26,5 +26,4 @@ class SoundPlaylistFragment : Fragment() {
         return binding.root
     }
 
-
 }
