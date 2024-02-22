@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.prankappinsectinphone.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_insectsHomeFragment"
+            app:destination="@id/insectsHomeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_soundPlaylistFragment"
+            app:destination="@id/soundPlaylistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/soundDetailFragment"
+        android:name="com.example.prankappinsectinphone.fragments.SoundDetailFragment"
+        android:label="fragment_sound_detail"
+        tools:layout="@layout/fragment_sound_detail" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.prankappinsectinphone.fragments.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/insectsHomeFragment"
+        android:name="com.example.prankappinsectinphone.fragments.InsectsHomeFragment"
+        android:label="fragment_insects_home"
+        tools:layout="@layout/fragment_insects_home" />
+    <fragment
+        android:id="@+id/soundPlaylistFragment"
+        android:name="com.example.prankappinsectinphone.fragments.SoundPlaylistFragment"
+        android:label="fragment_sound_playlist"
+        tools:layout="@layout/fragment_sound_playlist" >
+        <action
+            android:id="@+id/action_soundPlaylistFragment_to_soundDetailFragment"
+            app:destination="@id/soundDetailFragment" />
+    </fragment>
+</navigation>
