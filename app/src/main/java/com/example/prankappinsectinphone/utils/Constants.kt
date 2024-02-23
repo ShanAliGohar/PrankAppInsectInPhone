@@ -2,42 +2,86 @@ package com.example.prankappinsectinphone.utils
 
 import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.models.HomeScreenItems
+import com.example.prankappinsectinphone.models.InsectsScreenItems
+import com.example.prankappinsectinphone.models.PlaylistItem
 
-object Constant{
+object Constant {
+    var HOUSEFLY_SELECTED = false
+    var BUTTERFLY_SELECTED = false
+    var SPIDER_SELECTED = false
+    var ANT_SELECTED = false
+    var COCKROCH_SELECTED = false
+
     var homeScreenItem = arrayListOf(
         HomeScreenItems(
-
-            R.drawable.fart_sound_image,
-            "Bike"
+            R.drawable.fart_final_image,
         ), HomeScreenItems(
-            R.drawable.insect_image,
-            "Bike"
+            R.drawable.insect_final_image,
         ), HomeScreenItems(
-            R.drawable.bike_image,
-            "Bike"
+            R.drawable.bike_final_image,
         ), HomeScreenItems(
-            R.drawable.car_image,
-            "Bike"
+            R.drawable.car_final_image,
         )
     )
-    var insectHomeScreenItem =  arrayListOf(
-        HomeScreenItems(
+        //var insectHomeScreenItem = initializeInsectHomeScreenItem()
 
-            R.drawable.fart_sound_image,
-            "Bike"
-        ), HomeScreenItems(
-            R.drawable.insect_image,
-            "Bike"
-        ), HomeScreenItems(
-            R.drawable.bike_image,
-            "Bike"
-        ), HomeScreenItems(
-            R.drawable.car_image,
-            "Bike"
-        )
-        , HomeScreenItems(
-            R.drawable.car_image,
-            "Bike"
-        )
+    fun initializeInsectHomeScreenItem(): List<InsectsScreenItems> {
+
+          return  arrayListOf(
+                InsectsScreenItems(
+                    R.drawable.housefly_image,true,
+                ), InsectsScreenItems(
+                    R.drawable.butterfly_image, true,
+                ), InsectsScreenItems(
+                    R.drawable.spider_image,true,
+                ), InsectsScreenItems(
+                    R.drawable.ant_image, true,
+                ), InsectsScreenItems(
+                    R.drawable.ant_image, true
+                )
+            )
+
+    }
+
+
+    var fartPlaylistItems = arrayListOf(
+        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 3", R.drawable.fart_playlist_image)
+        // Add more items as needed
+
     )
+    var bikePlaylistItems = arrayListOf(
+        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 3", R.drawable.fart_playlist_image)
+        // Add more items as needed
+
+    )
+    var carPlaylistItems = arrayListOf(
+        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart 3", R.drawable.fart_playlist_image)
+        // Add more items as needed
+
+    )
+
 }

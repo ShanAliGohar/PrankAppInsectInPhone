@@ -14,14 +14,15 @@
             android:id="@+id/action_homeFragment_to_insectsHomeFragment"
             app:destination="@id/insectsHomeFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_soundPlaylistFragment"
-            app:destination="@id/soundPlaylistFragment" />
+            android:id="@+id/action_homeFragment_to_carPlaylistFragment"
+            app:destination="@id/carPlaylistFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_fartPlaylistFragment"
+            app:destination="@id/fartPlaylistFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bikePlaylistFragment"
+            app:destination="@id/bikePlaylistFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/soundDetailFragment"
-        android:name="com.example.prankappinsectinphone.fragments.SoundDetailFragment"
-        android:label="fragment_sound_detail"
-        tools:layout="@layout/fragment_sound_detail" />
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.example.prankappinsectinphone.fragments.SplashFragment"
@@ -37,12 +38,44 @@
         android:label="fragment_insects_home"
         tools:layout="@layout/fragment_insects_home" />
     <fragment
-        android:id="@+id/soundPlaylistFragment"
-        android:name="com.example.prankappinsectinphone.fragments.SoundPlaylistFragment"
-        android:label="fragment_sound_playlist"
-        tools:layout="@layout/fragment_sound_playlist" >
+        android:id="@+id/bikeDetailFragment"
+        android:name="com.example.prankappinsectinphone.fragments.BikeDetailFragment"
+        android:label="fragment_bike_detail"
+        tools:layout="@layout/fragment_bike_detail" />
+    <fragment
+        android:id="@+id/bikePlaylistFragment"
+        android:name="com.example.prankappinsectinphone.fragments.BikePlaylistFragment"
+        android:label="fragment_bike_playlist"
+        tools:layout="@layout/fragment_bike_playlist" >
         <action
-            android:id="@+id/action_soundPlaylistFragment_to_soundDetailFragment"
-            app:destination="@id/soundDetailFragment" />
+            android:id="@+id/action_bikePlaylistFragment_to_bikeDetailFragment"
+            app:destination="@id/bikeDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/carDetailFragment"
+        android:name="com.example.prankappinsectinphone.fragments.CarDetailFragment"
+        android:label="fragment_car_detail"
+        tools:layout="@layout/fragment_car_detail" />
+    <fragment
+        android:id="@+id/fartPlaylistFragment"
+        android:name="com.example.prankappinsectinphone.fragments.FartPlaylistFragment"
+        android:label="FartPlaylistFragment" >
+        <action
+            android:id="@+id/action_fartPlaylistFragment_to_fartDetailFragment"
+            app:destination="@id/fartDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carPlaylistFragment"
+        android:name="com.example.prankappinsectinphone.fragments.CarPlaylistFragment"
+        android:label="fragment_car_playlist"
+        tools:layout="@layout/fragment_car_playlist" >
+        <action
+            android:id="@+id/action_carPlaylistFragment_to_carDetailFragment"
+            app:destination="@id/carDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fartDetailFragment"
+        android:name="com.example.prankappinsectinphone.fragments.FartDetailFragment"
+        android:label="fragment_sound_detail"
+        tools:layout="@layout/fragment_sound_detail" />
 </navigation>

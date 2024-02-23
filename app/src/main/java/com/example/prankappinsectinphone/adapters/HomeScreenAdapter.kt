@@ -21,21 +21,21 @@ class HomeScreenAdapter(private val context: Context, private val gridItems: Lis
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = gridItems[position]
         holder.imageView.setImageResource(item.imageResource)
-        holder.textView.text = item.text
+//        holder.textView.text = item.text
 
         holder.itemView.setOnClickListener {
             if (position == 0) {
                 holder.itemView.findNavController()
-                    .navigate(R.id.action_homeFragment_to_soundPlaylistFragment)
+                    .navigate(R.id.action_homeFragment_to_fartPlaylistFragment)
             } else if (position == 1) {
                 holder.itemView.findNavController()
                     .navigate(R.id.action_homeFragment_to_insectsHomeFragment)
             } else if (position == 2) {
                 holder.itemView.findNavController()
-                    .navigate(R.id.action_homeFragment_to_soundPlaylistFragment)
+                    .navigate(R.id.action_homeFragment_to_bikePlaylistFragment)
             } else if (position == 3) {
                 holder.itemView.findNavController()
-                    .navigate(R.id.action_homeFragment_to_soundPlaylistFragment)
+                    .navigate(R.id.action_homeFragment_to_carPlaylistFragment)
             }
 
         }
@@ -48,7 +48,7 @@ class HomeScreenAdapter(private val context: Context, private val gridItems: Lis
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
-        val textView: TextView = itemView.findViewById(R.id.textView)
+      //  val textView: TextView = itemView.findViewById(R.id.textView)
 
     }
 }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.adapters.HomeScreenAdapter
@@ -28,7 +29,17 @@ class HomeFragment : Fragment() {
 
         val adapter = HomeScreenAdapter(requireContext(), Constant.homeScreenItem)
         binding.gridRecyclerView.adapter = adapter
+
+        binding.drawerIcon.setOnClickListener {
+            toggleLeftDrawer()
+        }
         return binding.root
     }
-
+    private fun toggleLeftDrawer() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.END)
+        } else {
+            binding.drawerLayout.openDrawer(GravityCompat.START)
+        }
+    }
 }

@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.prankappinsectinphone.R
-import com.example.prankappinsectinphone.databinding.FragmentSoundPlaylistBinding
 import com.example.prankappinsectinphone.databinding.FragmentSplashBinding
 
 

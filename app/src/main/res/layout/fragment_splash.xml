@@ -7,19 +7,14 @@
     android:background="@drawable/splash_background"
     tools:context=".fragments.SplashFragment">
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/elsie_black"
-        android:text="Prank app \n Insect in phone"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontal_progress_bar"
-        app:layout_constraintEnd_toEndOf="@+id/horizontal_progress_bar"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/horizontal_progress_bar" />
+        android:src="@drawable/app_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.prankappinsectinphone.views.HorizontalProgressBar
         android:id="@+id/horizontal_progress_bar"

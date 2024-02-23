@@ -21,7 +21,7 @@ class HorizontalProgressBar @JvmOverloads constructor(
         isAntiAlias = true
     }
     private val backgroundPaint = Paint().apply {
-        color = Color.GRAY
+        color = Color.WHITE
         isAntiAlias = true
     }
     private val roundedRect = RectF()
