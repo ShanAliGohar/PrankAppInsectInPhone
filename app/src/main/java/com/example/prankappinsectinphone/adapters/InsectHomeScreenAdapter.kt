@@ -33,8 +33,11 @@ class InsectHomeScreenAdapter(
         if (gridItems[position].isChecked) {
             holder.tickIcons.visibility = View.VISIBLE
         } else {
+
             holder.tickIcons.visibility = View.GONE
+
         }
+
         holder.itemView.setOnClickListener {
             uncheckedAll(position)
 
@@ -58,6 +61,7 @@ class InsectHomeScreenAdapter(
     }
 
     fun uncheckedAll(position: Int) {
+
         for (i in gridItems.indices) {
             if (position == i) {
                 gridItems[i].isChecked = true

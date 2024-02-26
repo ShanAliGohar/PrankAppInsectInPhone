@@ -31,13 +31,13 @@ object Constant {
                 InsectsScreenItems(
                     R.drawable.housefly_image,true,
                 ), InsectsScreenItems(
-                    R.drawable.butterfly_image, true,
+                    R.drawable.butterfly_image, false,
                 ), InsectsScreenItems(
-                    R.drawable.spider_image,true,
+                    R.drawable.spider_image,false,
                 ), InsectsScreenItems(
-                    R.drawable.ant_image, true,
+                    R.drawable.ant_image, false,
                 ), InsectsScreenItems(
-                    R.drawable.ant_image, true
+                    R.drawable.ant_image, false
                 )
             )
 

@@ -6,22 +6,24 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.prankappinsectinphone.R
+import com.example.prankappinsectinphone.databinding.FragmentCarDetailBinding
 import com.example.prankappinsectinphone.databinding.FragmentFartDetailBinding
 import com.masoudss.lib.SeekBarOnProgressChanged
 import com.masoudss.lib.WaveformSeekBar
 import java.io.IOException
 
 
-class FartDetailFragment : Fragment() {
-    private val binding: FragmentFartDetailBinding by lazy {
-        FragmentFartDetailBinding.inflate(layoutInflater)
+class CarDetailFragment : Fragment() {
+
+    private val binding: FragmentCarDetailBinding by lazy {
+        FragmentCarDetailBinding.inflate(layoutInflater)
     }
 
     var mPlayer: MediaPlayer? = null

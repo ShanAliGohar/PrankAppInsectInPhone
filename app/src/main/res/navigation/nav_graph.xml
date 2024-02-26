@@ -76,6 +76,5 @@
     <fragment
         android:id="@+id/fartDetailFragment"
         android:name="com.example.prankappinsectinphone.fragments.FartDetailFragment"
-        android:label="fragment_sound_detail"
-        tools:layout="@layout/fragment_sound_detail" />
+        android:label="FartDetailFragment" />
 </navigation>
