@@ -28,7 +28,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Fart Sound Playlist"
+        android:fontFamily="@font/elsie_black"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/back_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +57,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3"
         app:marker_color="#9C9C9C"
-        app:marker_text_color="@color/black"
         app:marker_text_padding="2dp"
         app:marker_text_size="12dp"
         app:marker_width="1dp"
@@ -67,8 +68,8 @@
         app:wave_padding_Bottom="2dp"
         app:wave_padding_left="2dp"
         app:wave_padding_right="2dp"
-        app:wave_padding_top="2dp"
         app:wave_progress_color="#FEB938"
+        app:wave_padding_top="2dp"
         app:wave_width="5dp" />
 
     <com.airbnb.lottie.LottieAnimationView

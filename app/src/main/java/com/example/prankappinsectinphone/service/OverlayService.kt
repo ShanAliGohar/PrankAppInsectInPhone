@@ -11,7 +11,10 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.views.MovingInsectView
 
 class OverlayService : Service() {
@@ -63,9 +66,13 @@ class OverlayService : Service() {
     private fun createOverlay() {
         Log.d(TAG, "createOverlay: Creating overlay")
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-      //  overlayView = inflater.inflate(R.layout.overlay_layout, null)
-        overlayView = MovingInsectView(this)
+        overlayView = inflater.inflate(R.layout.overlay_layout, null)
+      //  overlayView = MovingInsectView(this)
         // Set up WindowManager LayoutParams
+        val img = overlayView?.findViewById<ImageView>(R.id.img)
+        if (img != null) {
+            Glide.with(this).load(R.raw.sdasdffdf).into(img)
+        }
         val layoutParams = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,

@@ -23,12 +23,21 @@ class FartPlaylistAdapter(private val context: Context, private val fartPlaylist
     override fun onBindViewHolder(holder: FartViewHolder, position: Int) {
         val fartItem = fartPlaylist[position]
         holder.fartText.text = fartItem.fartName
-
+        holder.fartImage.setImageResource(fartItem.imageResource)
         holder.itemView.setOnClickListener {
-        holder.itemView.findNavController().navigate(R.id.action_fartPlaylistFragment_to_fartDetailFragment)
+            val bundle = Bundle()
+            when (position) {
+                0 -> bundle.putInt("rawResourceId", R.raw.fartsound1)
+                1 -> bundle.putInt("rawResourceId", R.raw.fartsound2)
+                2 -> bundle.putInt("rawResourceId", R.raw.fartsound3)
+                3 -> bundle.putInt("rawResourceId", R.raw.fartsound4)
+            }
+            holder.itemView.findNavController().navigate(
+                R.id.action_fartPlaylistFragment_to_fartDetailFragment,
+                bundle
+            )
         }
-        // Set image using Glide or any other image loading library
-        // Glide.with(context).load(fartItem.imageResource).into(holder.fartImage)
+
     }
 
     override fun getItemCount(): Int {

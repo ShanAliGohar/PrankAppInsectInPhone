@@ -45,41 +45,37 @@ object Constant {
 
 
     var fartPlaylistItems = arrayListOf(
-        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 3", R.drawable.fart_playlist_image)
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+
         // Add more items as needed
 
     )
     var bikePlaylistItems = arrayListOf(
-        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 3", R.drawable.fart_playlist_image)
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final)
         // Add more items as needed
 
     )
     var carPlaylistItems = arrayListOf(
-        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 3", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 1", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 2", R.drawable.fart_playlist_image),
-        PlaylistItem("Fart 3", R.drawable.fart_playlist_image)
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final),
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final),
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final),
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final),
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final),
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final),
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final),
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final),
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final)
         // Add more items as needed
 
     )

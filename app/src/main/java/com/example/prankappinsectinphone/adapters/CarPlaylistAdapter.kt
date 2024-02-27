@@ -23,6 +23,7 @@ class CarPlaylistAdapter(private val context: Context, private val fartPlaylist:
     override fun onBindViewHolder(holder: FartViewHolder, position: Int) {
         val fartItem = fartPlaylist[position]
         holder.fartText.text = fartItem.fartName
+        holder.fartImage.setImageResource(fartItem.imageResource)
         holder.itemView.setOnClickListener {
             holder.itemView.findNavController().navigate(R.id.action_carPlaylistFragment_to_carDetailFragment)
         }

@@ -23,6 +23,7 @@ class MovingInsectView @JvmOverloads constructor(
     private lateinit var animator3: ObjectAnimator
 
     init {
+
         setBackgroundResource(R.drawable.animation)
         animationDrawable1 = background as AnimationDrawable
         animationDrawable1.start()

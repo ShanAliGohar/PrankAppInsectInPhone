@@ -1,6 +1,8 @@
 package com.example.prankappinsectinphone.fragments
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -10,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.prankappinsectinphone.R
@@ -27,12 +30,14 @@ class FartDetailFragment : Fragment() {
     var mPlayer: MediaPlayer? = null
     val mHandler = Handler()
     var audioManger: AudioManager? = null
+    var rawResourceId :Int? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        mPlayer = MediaPlayer.create(requireContext(), R.raw.fartsound1)
+        rawResourceId = arguments?.getInt("rawResourceId")
+        mPlayer = rawResourceId?.let { MediaPlayer.create(requireContext(), it) }
         audioManger = activity?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         val maxVolume: Int? = audioManger?.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
@@ -66,7 +71,9 @@ class FartDetailFragment : Fragment() {
 
         }
 
-        binding.waveformSeekBar.setSampleFrom(R.raw.fartsound1)
+        if (rawResourceId != null) {
+            binding.waveformSeekBar.setSampleFrom(rawResourceId!!)
+        }
         binding.waveformSeekBar.maxProgress = mPlayer?.duration?.toFloat()!!
         mHandler.postDelayed(updateSeekBar, 100)
 
@@ -87,6 +94,16 @@ class FartDetailFragment : Fragment() {
         binding.backIcon.setOnClickListener {
             findNavController().navigateUp()
         }
+
+/*
+        val gradientDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.progress_gradient)
+        val gradientPositions = floatArrayOf(0.0f, 1.0f) // Example gradient positions
+
+        if (gradientDrawable != null) {
+            binding.waveformSeekBar.setGradientDrawable(gradientDrawable,gradientPositions)
+        }
+*/
+
         return binding.root
     }
 
@@ -116,7 +133,7 @@ class FartDetailFragment : Fragment() {
 
             try {
 
-                mPlayer = MediaPlayer.create(requireContext(), R.raw.fartsound1)
+                mPlayer = rawResourceId?.let { MediaPlayer.create(requireContext(), it) }
                 mPlayer?.start()
                 binding.fartLoti.playAnimation()
 
