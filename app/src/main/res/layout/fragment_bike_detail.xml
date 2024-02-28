@@ -28,7 +28,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Bike Sound"
         app:layout_constraintBottom_toBottomOf="@+id/back_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/fart_loti"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="300dp"
         android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
@@ -83,9 +83,8 @@
         app:layout_constraintStart_toStartOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
         app:layout_constraintWidth_percent="0.15"
-        app:lottie_autoPlay="false"
-        app:lottie_loop="false"
-        app:lottie_rawRes="@raw/fart_animation" />
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/bike" />
 
     <SeekBar
         android:id="@+id/seekBar"

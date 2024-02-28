@@ -1,10 +1,10 @@
 package com.example.prankappinsectinphone.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.prankappinsectinphone.adapters.FartPlaylistAdapter
@@ -21,21 +21,20 @@ class FartPlaylistFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
-        binding.fartPlaylistRv.layoutManager = LinearLayoutManager(requireContext())
-
-        // Sample data for demonstration
-
-        // Initialize and set adapter
-        val fartAdapter = FartPlaylistAdapter(requireContext(), Constant.fartPlaylistItems)
-        binding.fartPlaylistRv.adapter = fartAdapter
-
-        binding.backIcon.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
+        setupRecyclerView()
+        setupBackIconClickListener()
         return binding.root
     }
 
+    private fun setupRecyclerView() {
+        binding.fartPlaylistRv.layoutManager = LinearLayoutManager(requireContext())
+        val fartAdapter = FartPlaylistAdapter(requireContext(), Constant.fartPlaylistItems)
+        binding.fartPlaylistRv.adapter = fartAdapter
+    }
+
+    private fun setupBackIconClickListener() {
+        binding.backIcon.setOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
 }

@@ -49,6 +49,18 @@ object Constant {
         PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
         PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
         PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
+        PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
 
         // Add more items as needed
 
@@ -62,11 +74,19 @@ object Constant {
         PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
         PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
         PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
-        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final)
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
+        PlaylistItem("Super Bike Sound", R.drawable.bike_pl_final),
         // Add more items as needed
 
     )
     var carPlaylistItems = arrayListOf(
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final),
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final),
+        PlaylistItem("Car Sounds", R.drawable.car_pl_final),
         PlaylistItem("Car Sounds", R.drawable.car_pl_final),
         PlaylistItem("Car Sounds", R.drawable.car_pl_final),
         PlaylistItem("Car Sounds", R.drawable.car_pl_final),

@@ -1,8 +1,6 @@
 package com.example.prankappinsectinphone.fragments
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -12,47 +10,52 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.databinding.FragmentFartDetailBinding
 import com.masoudss.lib.SeekBarOnProgressChanged
 import com.masoudss.lib.WaveformSeekBar
 import java.io.IOException
-
 
 class FartDetailFragment : Fragment() {
     private val binding: FragmentFartDetailBinding by lazy {
         FragmentFartDetailBinding.inflate(layoutInflater)
     }
 
-    var mPlayer: MediaPlayer? = null
-    val mHandler = Handler()
-    var audioManger: AudioManager? = null
-    var rawResourceId :Int? = null
+    private var mPlayer: MediaPlayer? = null
+    private val mHandler = Handler()
+    private var audioManager: AudioManager? = null
+    private var rawResourceId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        setupMediaPlayer()
+        setupVolumeSeekBar()
+        setupFartLotiClickListener()
+        setupWaveformSeekBar()
+        setupBackIconClickListener()
+
+        return binding.root
+    }
+
+    private fun setupMediaPlayer() {
         rawResourceId = arguments?.getInt("rawResourceId")
         mPlayer = rawResourceId?.let { MediaPlayer.create(requireContext(), it) }
-        audioManger = activity?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager = activity?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    }
 
-        val maxVolume: Int? = audioManger?.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-        if (maxVolume != null) {
-            binding.seekBar.max = maxVolume
-        }
-        val currVolume: Int? = audioManger?.getStreamVolume(AudioManager.STREAM_MUSIC)
-        if (currVolume != null) {
-            binding.seekBar.progress = currVolume
-        }
+    private fun setupVolumeSeekBar() {
+        val maxVolume: Int? = audioManager?.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        maxVolume?.let { binding.seekBar.max = it }
+        val currVolume: Int? = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
+        currVolume?.let { binding.seekBar.progress = it }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    audioManger?.setStreamVolume(
+                    audioManager?.setStreamVolume(
                         AudioManager.STREAM_MUSIC,
                         progress,
                         AudioManager.FLAG_PLAY_SOUND
@@ -64,17 +67,17 @@ class FartDetailFragment : Fragment() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
 
-
+    private fun setupFartLotiClickListener() {
         binding.fartLoti.setOnClickListener {
             startPlaying()
-
         }
+    }
 
-        if (rawResourceId != null) {
-            binding.waveformSeekBar.setSampleFrom(rawResourceId!!)
-        }
-        binding.waveformSeekBar.maxProgress = mPlayer?.duration?.toFloat()!!
+    private fun setupWaveformSeekBar() {
+        rawResourceId?.let { binding.waveformSeekBar.setSampleFrom(it) }
+        mPlayer?.duration?.toFloat()?.let { binding.waveformSeekBar.maxProgress = it }
         mHandler.postDelayed(updateSeekBar, 100)
 
         binding.waveformSeekBar.onProgressChanged = object : SeekBarOnProgressChanged {
@@ -85,26 +88,17 @@ class FartDetailFragment : Fragment() {
             ) {
                 if (mPlayer != null && fromUser) {
                     mPlayer?.seekTo(progress.toInt())
-
                 } else {
                     Log.d("TAG", "onProgressChanged: i am not drawn ")
                 }
             }
         }
+    }
+
+    private fun setupBackIconClickListener() {
         binding.backIcon.setOnClickListener {
             findNavController().navigateUp()
         }
-
-/*
-        val gradientDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.progress_gradient)
-        val gradientPositions = floatArrayOf(0.0f, 1.0f) // Example gradient positions
-
-        if (gradientDrawable != null) {
-            binding.waveformSeekBar.setGradientDrawable(gradientDrawable,gradientPositions)
-        }
-*/
-
-        return binding.root
     }
 
     private val updateSeekBar = object : Runnable {
@@ -120,28 +114,28 @@ class FartDetailFragment : Fragment() {
     }
 
     private fun startPlaying() {
-        if (mPlayer != null && mPlayer?.isPlaying() == true) {
+        if (mPlayer != null && mPlayer?.isPlaying == true) {
             mPlayer?.pause()
-            binding.fartLoti.pauseAnimation() // Pause animation when MediaPlayer is paused
-        } else if (mPlayer != null) {
+            binding.fartLoti.pauseAnimation()
+            binding.fartLoti.loop(false)
+        }
+        else if (mPlayer != null) {
             mPlayer?.start()
-            binding.fartLoti.playAnimation() // Start animation when MediaPlayer starts playing
-
+            binding.fartLoti.playAnimation()
+            binding.fartLoti.loop(true)
         } else {
-            //   mPlayer = MediaPlayer()
-
-
             try {
 
                 mPlayer = rawResourceId?.let { MediaPlayer.create(requireContext(), it) }
                 mPlayer?.start()
                 binding.fartLoti.playAnimation()
-
-
-            } catch (e: IOException) {
+                binding.fartLoti.loop(true)            } catch (e: IOException) {
                 Log.e("Log", "prepare() failed")
             }
         }
-    }
+        mPlayer?.setOnCompletionListener {
+            binding.fartLoti.pauseAnimation()
 
+        }
+    }
 }

@@ -1,4 +1,5 @@
 package com.example.prankappinsectinphone.service
+
 import android.app.Service
 import android.content.Intent
 import android.graphics.PixelFormat
@@ -15,7 +16,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.prankappinsectinphone.R
-import com.example.prankappinsectinphone.views.MovingInsectView
 
 class OverlayService : Service() {
     private var windowManager: WindowManager? = null
@@ -53,8 +53,10 @@ class OverlayService : Service() {
                 true
             } else {
                 // Request overlay permission
-                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:$packageName"))
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:$packageName")
+                )
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 false
@@ -63,15 +65,16 @@ class OverlayService : Service() {
             true
         }
     }
+
     private fun createOverlay() {
         Log.d(TAG, "createOverlay: Creating overlay")
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         overlayView = inflater.inflate(R.layout.overlay_layout, null)
-      //  overlayView = MovingInsectView(this)
+        //  overlayView = MovingInsectView(this)
         // Set up WindowManager LayoutParams
         val img = overlayView?.findViewById<ImageView>(R.id.img)
         if (img != null) {
-            Glide.with(this).load(R.raw.sdasdffdf).into(img)
+            Glide.with(this).load(R.raw.snake).into(img)
         }
         val layoutParams = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -82,7 +85,7 @@ class OverlayService : Service() {
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
             },
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
         )

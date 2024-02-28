@@ -12,43 +12,52 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.navigation.fragment.findNavController
-import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.databinding.FragmentBikeDetailBinding
-import com.example.prankappinsectinphone.databinding.FragmentCarPlaylistBinding
 import com.masoudss.lib.SeekBarOnProgressChanged
 import com.masoudss.lib.WaveformSeekBar
 import java.io.IOException
-
 
 class BikeDetailFragment : Fragment() {
     private val binding: FragmentBikeDetailBinding by lazy {
         FragmentBikeDetailBinding.inflate(layoutInflater)
     }
 
-    var mPlayer: MediaPlayer? = null
-    val mHandler = Handler()
-    var audioManger: AudioManager? = null
+    private var mPlayer: MediaPlayer? = null
+    private val mHandler = Handler()
+    private var audioManager: AudioManager? = null
+    private var rawResourceId: Int? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        rawResourceId = arguments?.getInt("rawResourceIdBike")
 
-        mPlayer = MediaPlayer.create(requireContext(), R.raw.fartsound1)
-        audioManger = activity?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        setupMediaPlayer()
+        setupVolumeSeekBar()
+        setupFartLotiClickListener()
+        setupWaveformSeekBar()
+        setupBackIconClickListener()
 
-        val maxVolume: Int? = audioManger?.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
-        if (maxVolume != null) {
-            binding.seekBar.max = maxVolume
-        }
-        val currVolume: Int? = audioManger?.getStreamVolume(AudioManager.STREAM_MUSIC)
-        if (currVolume != null) {
-            binding.seekBar.progress = currVolume
-        }
+        return binding.root
+    }
+
+    private fun setupMediaPlayer() {
+        mPlayer = rawResourceId?.let { MediaPlayer.create(requireContext(), it) }
+        audioManager = activity?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    }
+
+    private fun setupVolumeSeekBar() {
+        val maxVolume: Int? = audioManager?.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        val currVolume: Int? = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
+
+        maxVolume?.let { binding.seekBar.max = it }
+        currVolume?.let { binding.seekBar.progress = it }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    audioManger?.setStreamVolume(
+                    audioManager?.setStreamVolume(
                         AudioManager.STREAM_MUSIC,
                         progress,
                         AudioManager.FLAG_PLAY_SOUND
@@ -60,15 +69,18 @@ class BikeDetailFragment : Fragment() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
 
-
+    private fun setupFartLotiClickListener() {
         binding.fartLoti.setOnClickListener {
             startPlaying()
-
         }
+    }
 
-        binding.waveformSeekBar.setSampleFrom(R.raw.fartsound1)
-        binding.waveformSeekBar.maxProgress = mPlayer?.duration?.toFloat()!!
+    private fun setupWaveformSeekBar() {
+        rawResourceId?.let { binding.waveformSeekBar.setSampleFrom(it) }
+        mPlayer?.duration?.toFloat()?.let { binding.waveformSeekBar.maxProgress = it }
+
         mHandler.postDelayed(updateSeekBar, 100)
 
         binding.waveformSeekBar.onProgressChanged = object : SeekBarOnProgressChanged {
@@ -79,16 +91,17 @@ class BikeDetailFragment : Fragment() {
             ) {
                 if (mPlayer != null && fromUser) {
                     mPlayer?.seekTo(progress.toInt())
-
                 } else {
                     Log.d("TAG", "onProgressChanged: i am not drawn ")
                 }
             }
         }
+    }
+
+    private fun setupBackIconClickListener() {
         binding.backIcon.setOnClickListener {
             findNavController().navigateUp()
         }
-        return binding.root
     }
 
     private val updateSeekBar = object : Runnable {
@@ -104,28 +117,28 @@ class BikeDetailFragment : Fragment() {
     }
 
     private fun startPlaying() {
-        if (mPlayer != null && mPlayer?.isPlaying() == true) {
+        if (mPlayer != null && mPlayer?.isPlaying == true) {
             mPlayer?.pause()
-            binding.fartLoti.pauseAnimation() // Pause animation when MediaPlayer is paused
-        } else if (mPlayer != null) {
+            binding.fartLoti.pauseAnimation()
+            binding.fartLoti.loop(false)
+        }
+        else if (mPlayer != null) {
             mPlayer?.start()
-            binding.fartLoti.playAnimation() // Start animation when MediaPlayer starts playing
-
+            binding.fartLoti.playAnimation()
+            binding.fartLoti.loop(true)
         } else {
-            //   mPlayer = MediaPlayer()
-
-
             try {
 
-                mPlayer = MediaPlayer.create(requireContext(), R.raw.fartsound1)
+                mPlayer = rawResourceId?.let { MediaPlayer.create(requireContext(), it) }
                 mPlayer?.start()
                 binding.fartLoti.playAnimation()
-
-
-            } catch (e: IOException) {
+                binding.fartLoti.loop(true)            } catch (e: IOException) {
                 Log.e("Log", "prepare() failed")
             }
         }
-    }
+        mPlayer?.setOnCompletionListener {
+            binding.fartLoti.pauseAnimation()
 
+        }
+    }
 }
