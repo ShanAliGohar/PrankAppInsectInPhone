@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prankappinsectinphone.R
-import com.example.prankappinsectinphone.models.HomeScreenItems
 import com.example.prankappinsectinphone.models.InsectsScreenItems
 import com.example.prankappinsectinphone.utils.Constant
 
@@ -33,18 +32,30 @@ class InsectHomeScreenAdapter(
         if (gridItems[position].isChecked) {
             holder.tickIcons.visibility = View.VISIBLE
         } else {
-
             holder.tickIcons.visibility = View.GONE
-
         }
 
         holder.itemView.setOnClickListener {
             uncheckedAll(position)
+            Log.d("TAG", "onBindViewHolder: $position")
+            if (position == 3) {
+                Constant.resource = R.raw.snake
+            }
+            if (position == 2) {
 
-            // start service here
+                Constant.resource = R.raw.butterfly
+            }
+            if (position == 0 ){
+                Constant.resource = R.raw.spider
+            }
+            if (position== 1){
+                Constant.resource = R.raw.bugsbed
+            }
+            if (position ==4){
+                Constant.resource = R.raw.finalcomp
+            }
         }
         // notifyDataSetChanged()
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -65,6 +76,7 @@ class InsectHomeScreenAdapter(
         for (i in gridItems.indices) {
             if (position == i) {
                 gridItems[i].isChecked = true
+
             } else {
                 gridItems[i].isChecked = false
             }

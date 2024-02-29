@@ -1,12 +1,17 @@
 package com.example.prankappinsectinphone.views
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.provider.SyncStateContract.Constants
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.Animation
+import com.example.prankappinsectinphone.utils.Constant
 
 class HorizontalProgressBar @JvmOverloads constructor(
     context: Context,
@@ -39,7 +44,9 @@ class HorizontalProgressBar @JvmOverloads constructor(
         val progressWidth = (progress.toFloat() / maxProgress) * width
         roundedRect.set(0f, 0f, progressWidth, height)
         canvas.drawRoundRect(roundedRect, height / 2, height / 2, progressPaint)
+
     }
+
 
     fun setProgress(progress: Int) {
         this.progress = progress
@@ -50,9 +57,14 @@ class HorizontalProgressBar @JvmOverloads constructor(
         this.maxProgress = maxProgress
     }
 
-    fun animateProgress() {
+    fun animateProgress(completion: () -> Unit) {
         val animator = ObjectAnimator.ofInt(this, "progress", 0, maxProgress)
         animator.duration = 2000 // 2 seconds
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
+                completion.invoke() // Invoke the completion listener when the animation ends
+            }
+        })
         animator.start()
     }
 }

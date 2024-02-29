@@ -9,31 +9,43 @@ import androidx.navigation.fragment.findNavController
 import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.databinding.FragmentSplashBinding
 import kotlinx.coroutines.*
-
 class SplashFragment : Fragment() {
     private val binding: FragmentSplashBinding by lazy {
         FragmentSplashBinding.inflate(layoutInflater)
     }
+    private var onpauseLogic = false
+    private var splashJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(2000)
+       /* splashJob = CoroutineScope(Dispatchers.IO + SupervisorJob()).launch {
+            onpauseLogic = true
+            delay(2500)
             navigateToNextScreen()
         }
-
-        binding.horizontalProgressBar.animateProgress()
+*/
+        binding.horizontalProgressBar.animateProgress({ findNavController().navigate(R.id.action_splashFragment_to_homeFragment) })
 
         return binding.root
     }
 
+    override fun onPause() {
+        super.onPause()
+        onpauseLogic = true
+    }
 
-
-    private suspend fun navigateToNextScreen() {
+  /*  private suspend fun navigateToNextScreen() {
         withContext(Dispatchers.Main) {
-            findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+            if (onpauseLogic) {
+                findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+            }
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        splashJob?.cancel() // Cancel the job when the view is destroyed to avoid leaks
+    }*/
 }

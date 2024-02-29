@@ -2,10 +2,10 @@ package com.example.prankappinsectinphone.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.prankappinsectinphone.adapters.InsectHomeScreenAdapter
@@ -26,7 +26,8 @@ class InsectsHomeFragment : Fragment() {
         val layoutManager = GridLayoutManager(context, 2)
         binding.gridRecyclerView.layoutManager = layoutManager
 
-        val adapter = InsectHomeScreenAdapter(requireContext(), Constant.initializeInsectHomeScreenItem())
+        val adapter =
+            InsectHomeScreenAdapter(requireContext(), Constant.initializeInsectHomeScreenItem())
         binding.gridRecyclerView.adapter = adapter
 
         binding.counterLayout.bottomView.setOnClickListener {
@@ -40,8 +41,11 @@ class InsectsHomeFragment : Fragment() {
         return binding.root
     }
 
+
     private fun startService() {
         val serviceIntent = Intent(requireContext(), OverlayService::class.java)
-        activity?.startService(serviceIntent)
+        serviceIntent.putExtra("spider", Constant.resource)
+        requireActivity().startService(serviceIntent)
     }
+
 }

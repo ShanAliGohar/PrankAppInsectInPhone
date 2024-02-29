@@ -15,6 +15,8 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.Rotate
+import com.bumptech.glide.request.RequestOptions
 import com.example.prankappinsectinphone.R
 
 class OverlayService : Service() {
@@ -22,6 +24,7 @@ class OverlayService : Service() {
     private var overlayView: View? = null
 
     override fun onBind(intent: Intent?): IBinder? {
+
         return null
     }
 
@@ -30,12 +33,27 @@ class OverlayService : Service() {
         Log.d(TAG, "onCreate: OverlayService created")
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         if (hasOverlayPermission()) {
-            createOverlay()
+
+            // createOverlay()
+
         } else {
             Log.e(TAG, "Overlay permission not granted")
             Toast.makeText(this, "Overlay permission not granted", Toast.LENGTH_SHORT).show()
             stopSelf() // Stop the service if overlay permission is not granted
         }
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+        if (intent != null && intent.hasExtra("spider")) {
+            val spiderResourceId = intent.getIntExtra("spider", R.raw.spider)
+            createOverlay(spiderResourceId)
+        }
+
+        // Continue with your service logic here...
+
+        return START_NOT_STICKY
+
     }
 
     override fun onDestroy() {
@@ -66,16 +84,27 @@ class OverlayService : Service() {
         }
     }
 
-    private fun createOverlay() {
+    private var rawResourceId: Int? = null
+
+    private fun createOverlay(resource: Int) {
         Log.d(TAG, "createOverlay: Creating overlay")
+
+        overlayView?.let {
+            windowManager?.removeView(it)
+            overlayView = null
+        }
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         overlayView = inflater.inflate(R.layout.overlay_layout, null)
+
         //  overlayView = MovingInsectView(this)
         // Set up WindowManager LayoutParams
+
         val img = overlayView?.findViewById<ImageView>(R.id.img)
         if (img != null) {
-            Glide.with(this).load(R.raw.snake).into(img)
+
+            Glide.with(this).load(resource).into(img)
         }
+
         val layoutParams = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -93,6 +122,8 @@ class OverlayService : Service() {
 
         // Add the view to the WindowManager
         windowManager?.addView(overlayView, layoutParams)
+
+
     }
 
     companion object {
