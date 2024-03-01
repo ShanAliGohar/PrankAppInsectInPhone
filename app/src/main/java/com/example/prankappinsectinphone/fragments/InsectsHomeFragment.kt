@@ -45,6 +45,7 @@ class InsectsHomeFragment : Fragment() {
     private fun startService() {
         val serviceIntent = Intent(requireContext(), OverlayService::class.java)
         serviceIntent.putExtra("spider", Constant.resource)
+        serviceIntent.putExtra("soundEffect", Constant.musicResource)
         requireActivity().startService(serviceIntent)
     }
 

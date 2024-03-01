@@ -136,6 +136,7 @@ class BikeDetailFragment : Fragment() {
                 Log.e("Log", "prepare() failed")
             }
         }
+
         mPlayer?.setOnCompletionListener {
             binding.fartLoti.pauseAnimation()
 

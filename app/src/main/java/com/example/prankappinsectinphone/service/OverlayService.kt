@@ -3,6 +3,7 @@ package com.example.prankappinsectinphone.service
 import android.app.Service
 import android.content.Intent
 import android.graphics.PixelFormat
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.IBinder
@@ -22,6 +23,7 @@ import com.example.prankappinsectinphone.R
 class OverlayService : Service() {
     private var windowManager: WindowManager? = null
     private var overlayView: View? = null
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun onBind(intent: Intent?): IBinder? {
 
@@ -45,9 +47,11 @@ class OverlayService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        if (intent != null && intent.hasExtra("spider")) {
-            val spiderResourceId = intent.getIntExtra("spider", R.raw.spider)
-            createOverlay(spiderResourceId)
+        if (intent != null && intent.hasExtra("spider") && intent.hasExtra("soundEffect")) {
+            val spiderResourceId = intent.getIntExtra("spider", R.raw.snake)
+            val musicResource = intent.getIntExtra("soundEffect", R.raw.snakesound)
+
+            createOverlay(spiderResourceId,musicResource)
         }
 
         // Continue with your service logic here...
@@ -86,12 +90,14 @@ class OverlayService : Service() {
 
     private var rawResourceId: Int? = null
 
-    private fun createOverlay(resource: Int) {
+    private fun createOverlay(resource: Int,musicResource: Int) {
         Log.d(TAG, "createOverlay: Creating overlay")
 
         overlayView?.let {
             windowManager?.removeView(it)
             overlayView = null
+            mediaPlayer?.release()
+
         }
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         overlayView = inflater.inflate(R.layout.overlay_layout, null)
@@ -104,7 +110,10 @@ class OverlayService : Service() {
 
             Glide.with(this).load(resource).into(img)
         }
+        mediaPlayer = MediaPlayer.create(this,musicResource) // Initialize MediaPlayer with your sound effect
 
+        mediaPlayer?.start()
+        mediaPlayer?.isLooping = true
         val layoutParams = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT,

@@ -12,6 +12,7 @@ object Constant {
     var ANT_SELECTED = false
     var COCKROCH_SELECTED = false
     var resource :Int= R.raw.snake
+    var musicResource :Int= R.raw.snakesound
 
     var homeScreenItem = arrayListOf(
         HomeScreenItems(
@@ -30,20 +31,19 @@ object Constant {
 
           return  arrayListOf(
                 InsectsScreenItems(
-                    R.drawable.housefly_image,true,
+                    R.drawable.snake_img,true,
                 ), InsectsScreenItems(
                     R.drawable.butterfly_image, false,
                 ), InsectsScreenItems(
                     R.drawable.spider_image,false,
                 ), InsectsScreenItems(
-                    R.drawable.ant_image, false,
-                ), InsectsScreenItems(
-                    R.drawable.ant_image, false
-                )
+                    R.drawable.bed_bug_img, false,
             )
+          )
 
     }
     var animationCompleted : Boolean = false
+
 
     var fartPlaylistItems = arrayListOf(
         PlaylistItem("Fart Sound", R.drawable.fart_playlist_image),
@@ -98,7 +98,7 @@ object Constant {
         PlaylistItem("Car Sounds", R.drawable.car_pl_final),
         PlaylistItem("Car Sounds", R.drawable.car_pl_final)
         // Add more items as needed
-
     )
+
 
 }

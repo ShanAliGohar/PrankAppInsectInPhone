@@ -38,24 +38,27 @@ class InsectHomeScreenAdapter(
         holder.itemView.setOnClickListener {
             uncheckedAll(position)
             Log.d("TAG", "onBindViewHolder: $position")
-            if (position == 3) {
+            if (position == 0) {
                 Constant.resource = R.raw.snake
+                Constant.musicResource = R.raw.snakesound
             }
-            if (position == 2) {
+            if (position == 1) {
 
                 Constant.resource = R.raw.butterfly
+                Constant.musicResource = R.raw.butterflysound
             }
-            if (position == 0 ){
+            if (position == 2 ){
                 Constant.resource = R.raw.spider
+                Constant.musicResource = R.raw.spidersound
             }
-            if (position== 1){
+            if (position== 3){
                 Constant.resource = R.raw.bugsbed
-            }
-            if (position ==4){
-                Constant.resource = R.raw.finalcomp
+                Constant.musicResource = R.raw.cockroachsound
+
             }
         }
         // notifyDataSetChanged()
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
