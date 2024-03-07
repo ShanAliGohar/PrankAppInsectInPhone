@@ -104,9 +104,17 @@ class GradientWaveFormSeekbar @JvmOverloads constructor(
                             )
                         }
 
-                        // Draw rounded rectangle for the progressed wave with gradient
-                        val cornerRadius = waveHeight // Adjust the corner radius based on the wave height
-                        canvas.drawRoundRect(waveRect, cornerRadius, cornerRadius, gradientPaint)
+                        // Draw the rectangle with pointy top
+                        canvas.drawRoundRect(waveRect, 0F, 0F, gradientPaint)
+
+                        // Draw a triangle on top of the rectangle
+                        val trianglePath = Path().apply {
+                            moveTo(progressXPosition, top) // Move to the progress point
+                            lineTo(progressXPosition, top - waveHeight) // Draw a line to the top
+                            lineTo(waveRectRight, top) // Draw a line to the right edge of the rectangle
+                            close() // Close the path
+                        }
+                        canvas.drawPath(trianglePath, gradientPaint)
                     } else {
                         // Draw regular wave
                         mWavePaint.color = waveBackgroundColor

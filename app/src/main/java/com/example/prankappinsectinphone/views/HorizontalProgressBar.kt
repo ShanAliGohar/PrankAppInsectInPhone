@@ -56,9 +56,9 @@ class HorizontalProgressBar @JvmOverloads constructor(
     fun setMaxProgress(maxProgress: Int) {
         this.maxProgress = maxProgress
     }
+    val animator = ObjectAnimator.ofInt(this, "progress", 0, maxProgress)
 
     fun animateProgress(completion: () -> Unit) {
-        val animator = ObjectAnimator.ofInt(this, "progress", 0, maxProgress)
         animator.duration = 2000 // 2 seconds
         animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator, isReverse: Boolean) {
@@ -66,5 +66,11 @@ class HorizontalProgressBar @JvmOverloads constructor(
             }
         })
         animator.start()
+    }
+    fun pauseAnimator(){
+        animator.pause()
+    }
+    fun resumeAnimator(){
+        animator.resume()
     }
 }

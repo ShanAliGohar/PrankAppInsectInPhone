@@ -39,6 +39,11 @@ class CarDetailFragment : Fragment() {
         setupBackIconClickListener()
         return binding.root
     }
+    override fun onPause() {
+        super.onPause()
+        mPlayer?.pause()
+
+    }
 
     private fun setupMediaPlayer() {
         rawResourceId = arguments?.getInt("rawResourceIdCar")

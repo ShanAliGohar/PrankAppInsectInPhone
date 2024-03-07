@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="item_offset">0dp</dimen>
+    <dimen name="window_height">1080f</dimen>
+    <dimen name="ripple_radius">10dp</dimen>
+
+
+</resources>

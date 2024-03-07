@@ -30,6 +30,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="50dp"
             android:src="@drawable/drawer_icon"
+            android:foreground="@drawable/wripple_effect"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="parent" />
 

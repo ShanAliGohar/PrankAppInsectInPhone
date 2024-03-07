@@ -1,6 +1,8 @@
 package com.example.prankappinsectinphone.fragments
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -12,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.navigation.fragment.findNavController
+import com.example.prankappinsectinphone.MainActivity
 import com.example.prankappinsectinphone.databinding.FragmentBikeDetailBinding
 import com.masoudss.lib.SeekBarOnProgressChanged
 import com.masoudss.lib.WaveformSeekBar
@@ -30,7 +33,7 @@ class BikeDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         rawResourceId = arguments?.getInt("rawResourceIdBike")
 
         setupMediaPlayer()
@@ -40,6 +43,11 @@ class BikeDetailFragment : Fragment() {
         setupBackIconClickListener()
 
         return binding.root
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mPlayer?.pause()
     }
 
     private fun setupMediaPlayer() {

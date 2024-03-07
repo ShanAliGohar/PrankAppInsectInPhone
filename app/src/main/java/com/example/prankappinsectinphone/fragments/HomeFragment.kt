@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.prankappinsectinphone.adapters.HomeScreenAdapter
 import com.example.prankappinsectinphone.databinding.FragmentHomeBinding
 import com.example.prankappinsectinphone.utils.Constant
+import com.example.prankappinsectinphone.utils.Constant.isInHome
 
 class HomeFragment : Fragment() {
 
@@ -45,5 +46,20 @@ class HomeFragment : Fragment() {
             GravityCompat.START
         }
         binding.drawerLayout.openDrawer(gravity)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isInHome = true
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isInHome = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        isInHome = false
     }
 }

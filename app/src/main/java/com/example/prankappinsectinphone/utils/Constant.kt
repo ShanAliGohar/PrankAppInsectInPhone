@@ -13,6 +13,9 @@ object Constant {
     var COCKROCH_SELECTED = false
     var resource :Int= R.raw.snake
     var musicResource :Int= R.raw.snakesound
+    var isStart : Boolean = false
+    var isInHome : Boolean = false
+
 
     var homeScreenItem = arrayListOf(
         HomeScreenItems(
@@ -26,7 +29,6 @@ object Constant {
         )
     )
         //var insectHomeScreenItem = initializeInsectHomeScreenItem()
-
     fun initializeInsectHomeScreenItem(): List<InsectsScreenItems> {
 
           return  arrayListOf(
@@ -38,7 +40,9 @@ object Constant {
                     R.drawable.spider_image,false,
                 ), InsectsScreenItems(
                     R.drawable.bed_bug_img, false,
-            )
+            ), InsectsScreenItems(
+                  R.drawable.housefly_image, false,
+              )
           )
 
     }

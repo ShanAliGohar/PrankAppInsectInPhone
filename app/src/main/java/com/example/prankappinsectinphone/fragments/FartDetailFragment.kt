@@ -39,6 +39,11 @@ class FartDetailFragment : Fragment() {
 
         return binding.root
     }
+    override fun onPause() {
+        super.onPause()
+        mPlayer?.pause()
+
+    }
 
     private fun setupMediaPlayer() {
         rawResourceId = arguments?.getInt("rawResourceId")
