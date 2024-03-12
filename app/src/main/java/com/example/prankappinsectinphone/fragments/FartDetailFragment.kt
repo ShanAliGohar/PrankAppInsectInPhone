@@ -1,6 +1,8 @@
 package com.example.prankappinsectinphone.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.IntentFilter
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -10,12 +12,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.databinding.FragmentFartDetailBinding
+import com.example.prankappinsectinphone.reciver.VolumeReciver
 import com.masoudss.lib.SeekBarOnProgressChanged
 import com.masoudss.lib.WaveformSeekBar
 import java.io.IOException
+
 
 class FartDetailFragment : Fragment() {
     private val binding: FragmentFartDetailBinding by lazy {
@@ -37,11 +43,31 @@ class FartDetailFragment : Fragment() {
         setupWaveformSeekBar()
         setupBackIconClickListener()
 
+
+        binding.volumeIcon.setOnClickListener {
+            audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
+            binding.volumeIcon.setImageResource(R.drawable.muteicon);
+
+        }
+
+
+
+        activity?.let { activity ->
+            val volumeChangeReceiver = VolumeReciver(activity, binding.seekBar)
+            activity.registerReceiver(volumeChangeReceiver, IntentFilter().apply {
+                addAction("android.media.VOLUME_CHANGED_ACTION")
+            })
+        }
         return binding.root
     }
     override fun onPause() {
         super.onPause()
         mPlayer?.pause()
+       /* activity?.let { activity ->
+            val volumeReceiver = VolumeReciver(activity,binding.seekBar)
+            activity.unregisterReceiver(volumeReceiver)
+        }*/
+
 
     }
 
@@ -58,6 +84,7 @@ class FartDetailFragment : Fragment() {
         currVolume?.let { binding.seekBar.progress = it }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
                     audioManager?.setStreamVolume(
@@ -65,6 +92,7 @@ class FartDetailFragment : Fragment() {
                         progress,
                         AudioManager.FLAG_PLAY_SOUND
                     )
+
                 }
             }
 

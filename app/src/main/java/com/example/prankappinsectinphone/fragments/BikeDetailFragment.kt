@@ -1,6 +1,7 @@
 package com.example.prankappinsectinphone.fragments
 
 import android.content.Context
+import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.media.AudioManager
@@ -16,6 +17,7 @@ import android.widget.SeekBar
 import androidx.navigation.fragment.findNavController
 import com.example.prankappinsectinphone.MainActivity
 import com.example.prankappinsectinphone.databinding.FragmentBikeDetailBinding
+import com.example.prankappinsectinphone.reciver.VolumeReciver
 import com.masoudss.lib.SeekBarOnProgressChanged
 import com.masoudss.lib.WaveformSeekBar
 import java.io.IOException
@@ -29,6 +31,7 @@ class BikeDetailFragment : Fragment() {
     private val mHandler = Handler()
     private var audioManager: AudioManager? = null
     private var rawResourceId: Int? = null
+    private var registed: Boolean? = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +44,13 @@ class BikeDetailFragment : Fragment() {
         setupFartLotiClickListener()
         setupWaveformSeekBar()
         setupBackIconClickListener()
+        activity?.let { activity ->
+            val volumeChangeReceiver = VolumeReciver(activity, binding.seekBar)
+            activity.registerReceiver(volumeChangeReceiver, IntentFilter().apply {
+                addAction("android.media.VOLUME_CHANGED_ACTION")
+                registed = true
+            })
+        }
 
         return binding.root
     }
@@ -48,6 +58,13 @@ class BikeDetailFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         mPlayer?.pause()
+       /* if (registed == true){
+            activity?.let { activity ->
+                val volumeReceiver = VolumeReciver(activity,binding.seekBar)
+                activity.unregisterReceiver(volumeReceiver)
+            }
+        }
+*/
     }
 
     private fun setupMediaPlayer() {

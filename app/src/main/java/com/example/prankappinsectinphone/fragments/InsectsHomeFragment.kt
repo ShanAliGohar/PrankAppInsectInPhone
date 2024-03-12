@@ -1,5 +1,6 @@
 package com.example.prankappinsectinphone.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -23,6 +25,8 @@ class InsectsHomeFragment : Fragment() {
         FragmentInsectsHomeBinding.inflate(layoutInflater)
     }
     var sharedPref: SharedPreferences? = null
+    private var isServiceRunning: Boolean = false
+    var adapter : InsectHomeScreenAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,13 +36,11 @@ class InsectsHomeFragment : Fragment() {
         var editor = sharedPref?.edit()
         binding.counterLayout.startTxt.text =
             sharedPref?.getString("stop/start", binding.counterLayout.startTxt.text as String)
-
-
         val layoutManager = GridLayoutManager(context, 2)
         binding.gridRecyclerView.layoutManager = layoutManager
 
-        val adapter =
-            InsectHomeScreenAdapter(requireContext(), Constant.initializeInsectHomeScreenItem())
+         adapter = InsectHomeScreenAdapter(requireContext(), Constant.initializeInsectHomeScreenItem(), isServiceRunning)
+
         binding.gridRecyclerView.adapter = adapter
 
         binding.counterLayout.bottomView.setOnClickListener {
@@ -49,18 +51,18 @@ class InsectsHomeFragment : Fragment() {
                     startService()
                     binding.counterLayout.startTxt.text = "Stop"
 
+
                 } else {
                     stopService()
                     binding.counterLayout.startTxt.text = "Start"
                     Constant.isStart = false
+
                 }
                 editor?.putString("stop/start", binding.counterLayout.startTxt.text as String)
                 editor?.apply()
             } else{
                 requestOverlayPermission()
             }
-
-
         }
 
         binding.backIcon.setOnClickListener {
@@ -72,8 +74,11 @@ class InsectsHomeFragment : Fragment() {
 
     private fun hasOverlayPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Settings.canDrawOverlays(requireContext())
-        } else {
+                // For Android versions 8.0 (API level 26) to Android 12 (API level 31)
+                Settings.canDrawOverlays(requireContext())
+
+            } else
+            {
             true
         }
     }
@@ -82,23 +87,37 @@ class InsectsHomeFragment : Fragment() {
             // Request overlay permission
             val intent = Intent(
                 Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                Uri.parse("package:${requireContext().packageName}")
+                Uri.parse("package:${context?.packageName}")
             )
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            requireContext().startActivity(intent)
+            startActivity(intent)
         }
     }
-
     private fun startService() {
+
+
         val serviceIntent = Intent(requireContext(), OverlayService::class.java)
         serviceIntent.putExtra("spider", Constant.resource)
         serviceIntent.putExtra("soundEffect", Constant.musicResource)
         requireActivity().startService(serviceIntent)
+
+
+        isServiceRunning = true
+        adapter?.notifyDataSetChanged()
+
     }
 
     private fun stopService() {
+
+
         val stopService = Intent(requireContext(), OverlayService::class.java)
         requireActivity().stopService(stopService)
+
+        isServiceRunning = false
+        adapter?.notifyDataSetChanged()
+
     }
+
+
 
 }

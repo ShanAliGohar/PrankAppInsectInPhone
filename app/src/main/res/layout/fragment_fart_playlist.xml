@@ -30,7 +30,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fart Sound Playlist"
+        android:text="Fart Sounds Playlist"
         android:textSize="18sp"
         android:fontFamily="@font/elsie_black"
         app:layout_constraintBottom_toBottomOf="@+id/back_icon"

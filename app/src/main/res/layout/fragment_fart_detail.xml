@@ -30,7 +30,7 @@
         android:id="@+id/headingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fart Sound"
+        android:text="Fart Sounds Playlist"
         android:fontFamily="@font/elsie_black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/back_icon"
@@ -53,8 +53,8 @@
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/zero_percent_tv"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loti_bg"
@@ -95,6 +95,7 @@
         android:layout_width="300dp"
         android:layout_height="20dp"
         android:layout_marginBottom="24dp"
+        android:max="100"
         app:layout_constraintBottom_toTopOf="@+id/bottom_bg"
         app:layout_constraintEnd_toEndOf="@+id/loti_bg"
         app:layout_constraintStart_toEndOf="@id/volume_icon" />
@@ -119,28 +120,6 @@
         app:layout_constraintEnd_toStartOf="@+id/seekBar"
         app:layout_constraintStart_toStartOf="@+id/loti_bg"
         app:layout_constraintTop_toTopOf="@+id/seekBar" />
-
-    <TextView
-        android:id="@+id/zero_percent_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/elsie_black"
-        android:text="0%"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintStart_toStartOf="@+id/seekBar" />
-
-    <TextView
-        android:id="@+id/hundrd_percent_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/elsie_black"
-        android:text="100%"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/zero_percent_tv"
-        app:layout_constraintEnd_toEndOf="@+id/seekBar"
-        app:layout_constraintTop_toTopOf="@+id/zero_percent_tv" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

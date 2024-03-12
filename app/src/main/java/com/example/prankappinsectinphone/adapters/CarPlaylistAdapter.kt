@@ -24,6 +24,8 @@ class CarPlaylistAdapter(private val context: Context, private val fartPlaylist:
     override fun onBindViewHolder(holder: FartViewHolder, position: Int) {
         val fartItem = fartPlaylist[position]
         holder.fartText.text = fartItem.fartName
+        holder.counting.text = fartItem.counting.toString()
+
         holder.fartImage.setImageResource(fartItem.imageResource)
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
@@ -55,5 +57,7 @@ class CarPlaylistAdapter(private val context: Context, private val fartPlaylist:
     inner class FartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val fartText: TextView = itemView.findViewById(R.id.fartText)
         val fartImage: ImageView = itemView.findViewById(R.id.image_fart)
+        val counting: TextView = itemView.findViewById(R.id.counting)
+
     }
 }

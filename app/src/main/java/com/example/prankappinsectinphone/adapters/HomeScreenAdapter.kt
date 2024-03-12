@@ -16,13 +16,16 @@ class HomeScreenAdapter(private val context: Context, private val gridItems: Lis
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.home_screen_item, parent, false)
         return ViewHolder(view)
+
+
     }
+
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = gridItems[position]
         holder.imageView.setImageResource(item.imageResource)
 //        holder.textView.text = item.text
-
         holder.itemView.setOnClickListener {
             if (position == 0) {
                 holder.itemView.findNavController()
@@ -37,11 +40,8 @@ class HomeScreenAdapter(private val context: Context, private val gridItems: Lis
                 holder.itemView.findNavController()
                     .navigate(R.id.action_homeFragment_to_carPlaylistFragment)
             }
-
         }
-
     }
-
     override fun getItemCount(): Int {
         return gridItems.size
     }

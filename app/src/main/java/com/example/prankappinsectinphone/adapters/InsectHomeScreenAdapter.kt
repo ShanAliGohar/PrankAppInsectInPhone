@@ -15,7 +15,9 @@ import com.example.prankappinsectinphone.utils.Constant
 
 class InsectHomeScreenAdapter(
     private val context: Context,
-    private var gridItems: List<InsectsScreenItems>
+    private var gridItems: List<InsectsScreenItems>,
+    private var isServiceRunning: Boolean
+
 ) : RecyclerView.Adapter<InsectHomeScreenAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,26 +32,37 @@ class InsectHomeScreenAdapter(
 
         if (gridItems[position].isChecked) {
             holder.tickIcons.visibility = View.VISIBLE
+
         } else {
             holder.tickIcons.visibility = View.GONE
+           // holder.imageView.isClickable = false
+
         }
+/*
+        if (isServiceRunning && !gridItems[position].isChecked) {
+            holder.imageView.isClickable = false
+        }*/
 
         holder.itemView.setOnClickListener {
-            uncheckedAll(position,holder.itemView)
-            Constant.resource = when (position) {
-                0 -> R.raw.snakenew
-                1 -> R.raw.butterfly
-                2 -> R.raw.spiderbig
-                3 -> R.raw.bugsbed
-                4 -> R.raw.fly
-                else -> Constant.resource
-            }
-            Constant.musicResource = when (position) {
-                0 -> R.raw.snakesound
-                1 -> R.raw.butterflysecondsound
-                2 -> R.raw.spidersound
-                3 -> R.raw.cockroachsound
-                else -> Constant.musicResource
+            if (!Constant.isStart) {
+                uncheckedAll(position, holder.itemView)
+                Constant.resource = when (position) {
+                    0 -> R.raw.snakenew
+                    1 -> R.raw.butterfly
+                    2 -> R.raw.spiderbig
+                    3 -> R.raw.bugsbed
+                    4 -> R.raw.fly
+                    else -> Constant.resource
+                }
+
+                Constant.musicResource = when (position) {
+                    0 -> R.raw.snakesound
+                    1 -> R.raw.butterflysecondsound
+                    2 -> R.raw.spidersound
+                    3 -> R.raw.cockroachsound
+                    4 -> R.raw.flybgsound
+                    else -> Constant.musicResource
+                }
             }
         }
     }
@@ -67,10 +80,7 @@ class InsectHomeScreenAdapter(
     fun uncheckedAll(position: Int,view:View) {
         for (i in gridItems.indices) {
             gridItems[i].isChecked = (position == i)
-
         }
         notifyDataSetChanged()
     }
-
-
 }
