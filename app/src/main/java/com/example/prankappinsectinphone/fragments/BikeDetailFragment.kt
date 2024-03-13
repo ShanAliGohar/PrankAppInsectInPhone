@@ -1,26 +1,36 @@
 package com.example.prankappinsectinphone.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.IntentFilter
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
+import android.content.SharedPreferences
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.prankappinsectinphone.MainActivity
+import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.databinding.FragmentBikeDetailBinding
 import com.example.prankappinsectinphone.reciver.VolumeReciver
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.drive.Drive
+import com.google.android.gms.drive.DriveFile
+import com.google.android.gms.drive.DriveId
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.masoudss.lib.SeekBarOnProgressChanged
 import com.masoudss.lib.WaveformSeekBar
 import java.io.IOException
+
 
 class BikeDetailFragment : Fragment() {
     private val binding: FragmentBikeDetailBinding by lazy {
@@ -32,28 +42,53 @@ class BikeDetailFragment : Fragment() {
     private var audioManager: AudioManager? = null
     private var rawResourceId: Int? = null
     private var registed: Boolean? = false
+    private var isSpeakButtonLongPressed = false
+    private lateinit var sharedPreferences: SharedPreferences
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        rawResourceId = arguments?.getInt("rawResourceIdBike")
 
+        rawResourceId = arguments?.getInt("rawResourceIdBike")
         setupMediaPlayer()
         setupVolumeSeekBar()
         setupFartLotiClickListener()
         setupWaveformSeekBar()
         setupBackIconClickListener()
+        volumeIconClickListners()
+
+        sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+
         activity?.let { activity ->
-            val volumeChangeReceiver = VolumeReciver(activity, binding.seekBar)
+            val volumeChangeReceiver = VolumeReciver(activity, binding.seekBar,binding.volumeIcon)
             activity.registerReceiver(volumeChangeReceiver, IntentFilter().apply {
                 addAction("android.media.VOLUME_CHANGED_ACTION")
                 registed = true
             })
         }
 
+        if (!sharedPreferences.getBoolean("bikeClickAnimationSeen", false)) {
+            binding.clickAnimation.visibility = View.VISIBLE
+            // Mark animation as seen
+            sharedPreferences.edit().putBoolean("bikeClickAnimationSeen", true).apply()
+        } else {
+            binding.clickAnimation.visibility = View.GONE
+        }
+
+        binding.loop.setOnClickListener {
+            startPlaying()
+            mPlayer?.isLooping = true
+            binding.clickAnimation.visibility = View.GONE
+        }
+
+
         return binding.root
     }
+
 
     override fun onPause() {
         super.onPause()
@@ -66,7 +101,20 @@ class BikeDetailFragment : Fragment() {
         }
 */
     }
-
+    private fun volumeIconClickListners() {
+        binding.volumeIcon.setOnClickListener {
+            val currentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC) ?: 0
+            if (currentVolume == 0) {
+                // Volume is currently muted, unmute it
+                audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager?.getStreamMaxVolume(AudioManager.STREAM_MUSIC) ?: 0, 0)
+                binding.volumeIcon.setImageResource(R.drawable.volume_icon)
+            } else {
+                // Volume is not muted, mute it
+                audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
+                binding.volumeIcon.setImageResource(R.drawable.mutedvolumeicon)
+            }
+        }
+    }
     private fun setupMediaPlayer() {
         mPlayer = rawResourceId?.let { MediaPlayer.create(requireContext(), it) }
         audioManager = activity?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -97,9 +145,8 @@ class BikeDetailFragment : Fragment() {
     }
 
     private fun setupFartLotiClickListener() {
-        binding.fartLoti.setOnClickListener {
-            startPlaying()
-        }
+        binding.fartLoti.setOnLongClickListener(speakHoldListener);
+        binding.fartLoti.setOnTouchListener(speakTouchListener);
     }
 
     private fun setupWaveformSeekBar() {
@@ -166,5 +213,28 @@ class BikeDetailFragment : Fragment() {
             binding.fartLoti.pauseAnimation()
 
         }
+    }
+    private val speakHoldListener = View.OnLongClickListener {
+        // Do something when your hold starts here.
+        startPlaying()
+        binding.fartLoti.animate()
+        isSpeakButtonLongPressed = true
+        binding.clickAnimation.visibility = View.GONE
+        true
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private val speakTouchListener = View.OnTouchListener { _, event ->
+        // We're only interested in when the button is released.
+        if (event.action == MotionEvent.ACTION_UP) {
+            // We're only interested in anything if our speak button is currently pressed.
+            if (isSpeakButtonLongPressed) {
+                // Do something when the button is released.
+                mPlayer?.pause()
+                binding.fartLoti.pauseAnimation()
+                isSpeakButtonLongPressed = false
+            }
+        }
+        false
     }
 }

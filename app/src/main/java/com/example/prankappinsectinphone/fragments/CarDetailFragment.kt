@@ -3,6 +3,7 @@ package com.example.prankappinsectinphone.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -15,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.databinding.FragmentCarDetailBinding
 import com.example.prankappinsectinphone.reciver.VolumeReciver
 import com.masoudss.lib.SeekBarOnProgressChanged
@@ -32,6 +34,7 @@ class CarDetailFragment : Fragment() {
     private var audioManager: AudioManager? = null
     private var rawResourceId: Int? = null
     private var isSpeakButtonLongPressed = false
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,12 +45,33 @@ class CarDetailFragment : Fragment() {
         setupFartLotiClickListener()
         setupWaveformSeekBar()
         setupBackIconClickListener()
+        volumeIconClickListners()
+
+        sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+
         activity?.let { activity ->
-            val volumeChangeReceiver = VolumeReciver(activity, binding.seekBar)
+            val volumeChangeReceiver = VolumeReciver(activity, binding.seekBar,binding.volumeIcon)
             activity.registerReceiver(volumeChangeReceiver, IntentFilter().apply {
                 addAction("android.media.VOLUME_CHANGED_ACTION")
             })
         }
+
+        if (!sharedPreferences.getBoolean("carClickAnimationSeen", false)) {
+            binding.clickAnimation.visibility = View.VISIBLE
+            // Mark animation as seen
+            sharedPreferences.edit().putBoolean("carClickAnimationSeen", true).apply()
+        } else {
+            binding.clickAnimation.visibility = View.GONE
+        }
+
+        binding.loop.setOnClickListener {
+            startPlaying()
+            mPlayer?.isLooping = true
+            binding.clickAnimation.visibility = View.GONE
+
+        }
+
         return binding.root
     }
     override fun onPause() {
@@ -58,7 +82,20 @@ class CarDetailFragment : Fragment() {
             activity.unregisterReceiver(volumeReceiver)
         }*/
     }
-
+    private fun volumeIconClickListners() {
+        binding.volumeIcon.setOnClickListener {
+            val currentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC) ?: 0
+            if (currentVolume == 0) {
+                // Volume is currently muted, unmute it
+                audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager?.getStreamMaxVolume(AudioManager.STREAM_MUSIC) ?: 0, 0)
+                binding.volumeIcon.setImageResource(R.drawable.volume_icon)
+            } else {
+                // Volume is not muted, mute it
+                audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
+                binding.volumeIcon.setImageResource(R.drawable.mutedvolumeicon)
+            }
+        }
+    }
     private fun setupMediaPlayer() {
         rawResourceId = arguments?.getInt("rawResourceIdCar")
         mPlayer = rawResourceId?.let { MediaPlayer.create(requireContext(), it) }
@@ -91,9 +128,7 @@ class CarDetailFragment : Fragment() {
     }
 
     private fun setupFartLotiClickListener() {
-        binding.fartLoti.setOnClickListener {
 
-        }
         binding.fartLoti.setOnLongClickListener(speakHoldListener);
         binding.fartLoti.setOnTouchListener(speakTouchListener);
     }
@@ -168,6 +203,7 @@ class CarDetailFragment : Fragment() {
         // Do something when your hold starts here.
         startPlaying()
         binding.fartLoti.animate()
+        binding.clickAnimation.visibility = View.GONE
         isSpeakButtonLongPressed = true
         true
     }

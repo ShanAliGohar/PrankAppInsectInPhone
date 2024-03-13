@@ -56,6 +56,8 @@ class BikePlaylistAdapter(private val context: Context, private val fartPlaylist
         return fartPlaylist.size
     }
 
+
+
     inner class FartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val fartText: TextView = itemView.findViewById(R.id.fartText)
         val fartImage: ImageView = itemView.findViewById(R.id.image_fart)

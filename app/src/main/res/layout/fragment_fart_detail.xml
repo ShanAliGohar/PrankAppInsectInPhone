@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -32,6 +33,7 @@
         android:layout_height="wrap_content"
         android:text="Fart Sounds Playlist"
         android:fontFamily="@font/elsie_black"
+        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/back_icon"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,8 +42,10 @@
 
     <ImageView
         android:id="@+id/loti_bg"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:src="@drawable/rounded_stroke"
         app:layout_constraintBottom_toTopOf="@+id/waveformSeekBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,12 +94,25 @@
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/fart_animation" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/clickAnimation"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="32dp"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/fart_loti"
+        app:layout_constraintTop_toBottomOf="@+id/top_bg"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/clickanimation" />
     <SeekBar
         android:id="@+id/seekBar"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginBottom="24dp"
         android:max="100"
+        app:layout_constraintEnd_toStartOf="@+id/loop"
         app:layout_constraintBottom_toTopOf="@+id/bottom_bg"
         app:layout_constraintEnd_toEndOf="@+id/loti_bg"
         app:layout_constraintStart_toEndOf="@id/volume_icon" />
@@ -121,5 +138,13 @@
         app:layout_constraintStart_toStartOf="@+id/loti_bg"
         app:layout_constraintTop_toTopOf="@+id/seekBar" />
 
-
+    <ImageView
+        android:id="@+id/loop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/loopaudio"
+        app:layout_constraintStart_toEndOf="@id/seekBar"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="@+id/loti_bg"
+        app:layout_constraintTop_toTopOf="@+id/seekBar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

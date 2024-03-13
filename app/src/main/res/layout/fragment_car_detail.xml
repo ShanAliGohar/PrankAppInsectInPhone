@@ -42,8 +42,10 @@
 
     <ImageView
         android:id="@+id/loti_bg"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:src="@drawable/rounded_stroke"
         app:layout_constraintBottom_toTopOf="@+id/waveformSeekBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,12 +93,24 @@
         app:layout_constraintWidth_percent="0.15"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/car" />
-
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/clickAnimation"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="32dp"
+        android:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/fart_loti"
+        app:layout_constraintTop_toBottomOf="@+id/top_bg"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/clickanimation" />
     <SeekBar
         android:id="@+id/seekBar"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginBottom="24dp"
+        app:layout_constraintEnd_toStartOf="@id/loop"
         app:layout_constraintBottom_toTopOf="@+id/bottom_bg"
         app:layout_constraintEnd_toEndOf="@+id/loti_bg"
         app:layout_constraintStart_toEndOf="@id/volume_icon" />
@@ -121,6 +135,16 @@
         app:layout_constraintEnd_toStartOf="@+id/seekBar"
         app:layout_constraintStart_toStartOf="@+id/loti_bg"
         app:layout_constraintTop_toTopOf="@+id/seekBar" />
+    <ImageView
+        android:id="@+id/loop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/loopaudio"
+        app:layout_constraintStart_toEndOf="@id/seekBar"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="@+id/loti_bg"
+        app:layout_constraintTop_toTopOf="@+id/seekBar" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

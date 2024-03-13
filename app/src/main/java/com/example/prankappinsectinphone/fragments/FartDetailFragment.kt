@@ -2,16 +2,21 @@ package com.example.prankappinsectinphone.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -32,7 +37,11 @@ class FartDetailFragment : Fragment() {
     private val mHandler = Handler()
     private var audioManager: AudioManager? = null
     private var rawResourceId: Int? = null
+    private var isSpeakButtonLongPressed = false
+    private lateinit var sharedPreferences: SharedPreferences
 
+
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,24 +51,55 @@ class FartDetailFragment : Fragment() {
         setupFartLotiClickListener()
         setupWaveformSeekBar()
         setupBackIconClickListener()
+        volumeIconClickListners()
 
+        sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
-        binding.volumeIcon.setOnClickListener {
-            audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
-            binding.volumeIcon.setImageResource(R.drawable.muteicon);
-
-        }
 
 
 
         activity?.let { activity ->
-            val volumeChangeReceiver = VolumeReciver(activity, binding.seekBar)
+            val volumeChangeReceiver = VolumeReciver(activity, binding.seekBar,binding.volumeIcon)
+
+
+
             activity.registerReceiver(volumeChangeReceiver, IntentFilter().apply {
                 addAction("android.media.VOLUME_CHANGED_ACTION")
             })
         }
+
+        if (!sharedPreferences.getBoolean("fartClickAnimationSeen", false)) {
+            binding.clickAnimation.visibility = View.VISIBLE
+            // Mark animation as seen
+            sharedPreferences.edit().putBoolean("fartClickAnimationSeen", true).apply()
+        } else {
+            binding.clickAnimation.visibility = View.GONE
+        }
+
+        binding.loop.setOnClickListener {
+            startPlaying()
+            mPlayer?.isLooping = true
+            binding.clickAnimation.visibility = View.GONE
+        }
+
         return binding.root
     }
+
+    private fun volumeIconClickListners() {
+        binding.volumeIcon.setOnClickListener {
+            val currentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC) ?: 0
+            if (currentVolume == 0) {
+                // Volume is currently muted, unmute it
+                audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager?.getStreamMaxVolume(AudioManager.STREAM_MUSIC) ?: 0, 0)
+                binding.volumeIcon.setImageResource(R.drawable.volume_icon)
+            } else {
+                // Volume is not muted, mute it
+                audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
+                binding.volumeIcon.setImageResource(R.drawable.mutedvolumeicon)
+            }
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         mPlayer?.pause()
@@ -81,7 +121,12 @@ class FartDetailFragment : Fragment() {
         val maxVolume: Int? = audioManager?.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         maxVolume?.let { binding.seekBar.max = it }
         val currVolume: Int? = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
-        currVolume?.let { binding.seekBar.progress = it }
+        currVolume?.let {
+            binding.seekBar.progress = it
+           // onVolumeUpdate(it)
+            Log.d("TAG", "currvolume:$it ")
+
+        }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             @SuppressLint("SetTextI18n")
@@ -92,9 +137,12 @@ class FartDetailFragment : Fragment() {
                         progress,
                         AudioManager.FLAG_PLAY_SOUND
                     )
+                    Log.d("TAG", "myprogress:$progress ")
+                //    onVolumeUpdate(progress)
 
                 }
             }
+
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
@@ -102,10 +150,10 @@ class FartDetailFragment : Fragment() {
         })
     }
 
+
     private fun setupFartLotiClickListener() {
-        binding.fartLoti.setOnClickListener {
-            startPlaying()
-        }
+        binding.fartLoti.setOnLongClickListener(speakHoldListener);
+        binding.fartLoti.setOnTouchListener(speakTouchListener);
     }
 
     private fun setupWaveformSeekBar() {
@@ -170,5 +218,28 @@ class FartDetailFragment : Fragment() {
             binding.fartLoti.pauseAnimation()
 
         }
+    }
+    private val speakHoldListener = View.OnLongClickListener {
+        // Do something when your hold starts here.
+        startPlaying()
+        binding.fartLoti.animate()
+        binding.clickAnimation.visibility = View.GONE
+        isSpeakButtonLongPressed = true
+        true
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private val speakTouchListener = View.OnTouchListener { _, event ->
+        // We're only interested in when the button is released.
+        if (event.action == MotionEvent.ACTION_UP) {
+            // We're only interested in anything if our speak button is currently pressed.
+            if (isSpeakButtonLongPressed) {
+                // Do something when the button is released.
+                mPlayer?.pause()
+                binding.fartLoti.pauseAnimation()
+                isSpeakButtonLongPressed = false
+            }
+        }
+        false
     }
 }
