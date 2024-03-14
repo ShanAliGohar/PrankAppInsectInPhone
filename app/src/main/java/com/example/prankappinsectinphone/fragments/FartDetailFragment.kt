@@ -41,6 +41,9 @@ class FartDetailFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
 
 
+    private  var isLooping: Boolean = false
+
+
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,33 +56,36 @@ class FartDetailFragment : Fragment() {
         setupBackIconClickListener()
         volumeIconClickListners()
 
+
         sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-
-
-
-
         activity?.let { activity ->
             val volumeChangeReceiver = VolumeReciver(activity, binding.seekBar,binding.volumeIcon)
-
-
-
             activity.registerReceiver(volumeChangeReceiver, IntentFilter().apply {
                 addAction("android.media.VOLUME_CHANGED_ACTION")
             })
         }
 
+/*
         if (!sharedPreferences.getBoolean("fartClickAnimationSeen", false)) {
             binding.clickAnimation.visibility = View.VISIBLE
             // Mark animation as seen
             sharedPreferences.edit().putBoolean("fartClickAnimationSeen", true).apply()
         } else {
             binding.clickAnimation.visibility = View.GONE
-        }
+        }*/
+
 
         binding.loop.setOnClickListener {
-            startPlaying()
-            mPlayer?.isLooping = true
-            binding.clickAnimation.visibility = View.GONE
+            if (!isLooping){
+                startPlaying()
+                mPlayer?.isLooping = true
+                isLooping = true
+                binding.loop.setImageResource(R.drawable.highlightedloop)
+            }else {
+                binding.loop.setImageResource(R.drawable.dimloop)
+                mPlayer?.isLooping = false
+                isLooping = false
+            }
         }
 
         return binding.root
@@ -223,7 +229,7 @@ class FartDetailFragment : Fragment() {
         // Do something when your hold starts here.
         startPlaying()
         binding.fartLoti.animate()
-        binding.clickAnimation.visibility = View.GONE
+      //  binding.clickAnimation.visibility = View.GONE
         isSpeakButtonLongPressed = true
         true
     }

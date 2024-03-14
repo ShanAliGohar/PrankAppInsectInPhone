@@ -26,6 +26,9 @@ object Constant {
     var isInHome: Boolean = false
 
 
+    var startButtonColorResource : Int = R.color.darkPurple
+    var startButtonBackgroundColorResource : Int = R.color.lightPurple
+
     var homeScreenItem = arrayListOf(
         HomeScreenItems(
             R.drawable.fart_final_image,
@@ -117,7 +120,20 @@ object Constant {
         // Add more items as needed
     )
 
+    private const val PREFS_NAME = "PrankAppPrefs"
 
+    // Function to save isStart to SharedPreferences
+    fun saveIsStart(context: Context, isStart: Boolean) {
+        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isStart", isStart)
+        editor.apply()
+    }
 
+    // Function to retrieve isStart from SharedPreferences
+    fun getIsStart(context: Context): Boolean {
+        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isStart", false) // Default value is false if key not found
+    }
 
 }

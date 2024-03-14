@@ -36,6 +36,9 @@ class CarDetailFragment : Fragment() {
     private var isSpeakButtonLongPressed = false
     private lateinit var sharedPreferences: SharedPreferences
 
+    private  var isLooping: Boolean = false
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,19 +60,26 @@ class CarDetailFragment : Fragment() {
             })
         }
 
-        if (!sharedPreferences.getBoolean("carClickAnimationSeen", false)) {
+      /*  if (!sharedPreferences.getBoolean("carClickAnimationSeen", false)) {
             binding.clickAnimation.visibility = View.VISIBLE
             // Mark animation as seen
             sharedPreferences.edit().putBoolean("carClickAnimationSeen", true).apply()
         } else {
             binding.clickAnimation.visibility = View.GONE
-        }
+        }*/
+
 
         binding.loop.setOnClickListener {
-            startPlaying()
-            mPlayer?.isLooping = true
-            binding.clickAnimation.visibility = View.GONE
-
+            if (!isLooping){
+                startPlaying()
+                mPlayer?.isLooping = true
+                isLooping = true
+                binding.loop.setImageResource(R.drawable.highlightedloop)
+            }else {
+                binding.loop.setImageResource(R.drawable.dimloop)
+                mPlayer?.isLooping = false
+                isLooping = false
+            }
         }
 
         return binding.root
@@ -203,7 +213,7 @@ class CarDetailFragment : Fragment() {
         // Do something when your hold starts here.
         startPlaying()
         binding.fartLoti.animate()
-        binding.clickAnimation.visibility = View.GONE
+       // binding.clickAnimation.visibility = View.GONE
         isSpeakButtonLongPressed = true
         true
     }

@@ -45,6 +45,8 @@ class BikeDetailFragment : Fragment() {
     private var isSpeakButtonLongPressed = false
     private lateinit var sharedPreferences: SharedPreferences
 
+    private  var isLooping: Boolean = false
+
 
 
     override fun onCreateView(
@@ -71,18 +73,25 @@ class BikeDetailFragment : Fragment() {
             })
         }
 
-        if (!sharedPreferences.getBoolean("bikeClickAnimationSeen", false)) {
+     /*   if (!sharedPreferences.getBoolean("bikeClickAnimationSeen", false)) {
             binding.clickAnimation.visibility = View.VISIBLE
             // Mark animation as seen
             sharedPreferences.edit().putBoolean("bikeClickAnimationSeen", true).apply()
         } else {
             binding.clickAnimation.visibility = View.GONE
-        }
+        }*/
 
         binding.loop.setOnClickListener {
-            startPlaying()
-            mPlayer?.isLooping = true
-            binding.clickAnimation.visibility = View.GONE
+            if (!isLooping){
+                startPlaying()
+                mPlayer?.isLooping = true
+                isLooping = true
+                binding.loop.setImageResource(R.drawable.highlightedloop)
+            }else {
+                binding.loop.setImageResource(R.drawable.dimloop)
+                mPlayer?.isLooping = false
+                isLooping = false
+            }
         }
 
 
@@ -101,6 +110,7 @@ class BikeDetailFragment : Fragment() {
         }
 */
     }
+
     private fun volumeIconClickListners() {
         binding.volumeIcon.setOnClickListener {
             val currentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC) ?: 0
@@ -219,7 +229,7 @@ class BikeDetailFragment : Fragment() {
         startPlaying()
         binding.fartLoti.animate()
         isSpeakButtonLongPressed = true
-        binding.clickAnimation.visibility = View.GONE
+        //binding.clickAnimation.visibility = View.GONE
         true
     }
 

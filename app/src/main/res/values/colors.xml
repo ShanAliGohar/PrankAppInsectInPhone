@@ -5,4 +5,22 @@
     <color name="orange">#f65852</color>
     <color name="pink">#D75E8F</color>
     <color name="purple">#673AB7</color>
+
+    <color name="lightPurple">#845FB0</color>
+    <color name="darkPurple">#3D1B64</color>
+
+    <color name="lightPink">#D75E8F</color>
+    <color name="darkPink">#931D4E</color>
+
+    <color name="lightRed">#F75F59</color>
+    <color name="darkRed">#C42E29</color>
+
+    <color name="darksky">#03658C</color>
+    <color name="lightSky">#5295B0</color>
+
+
+    <color name="darkOrange">#FF7E00</color>
+    <color name="lightOrange">#FFC964</color>
+
+
 </resources>

@@ -34,7 +34,7 @@
         android:text="Fart Sounds Playlist"
         android:textSize="18sp"
         android:fontFamily="@font/elsie_black"
-        android:textColor="@color/black"
+        android:textColor="#3D1B64"
         app:layout_constraintBottom_toBottomOf="@+id/back_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
