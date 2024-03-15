@@ -138,7 +138,7 @@ class InsectHomeScreenAdapter(
             1 -> R.color.darkOrange
             2 -> R.color.darkPink
             3 -> R.color.darkRed
-            4 -> R.color.darksky
+            4 -> R.color.darkPurple
             else -> R.color.darkPurple // Handle default color
         }
     }
@@ -149,7 +149,7 @@ class InsectHomeScreenAdapter(
             1 -> R.color.lightOrange
             2 -> R.color.lightPink
             3 -> R.color.lightRed
-            4 -> R.color.lightSky
+            4 -> R.color.lightPurple
             else -> R.color.lightPurple // Handle default background color
         }
     }

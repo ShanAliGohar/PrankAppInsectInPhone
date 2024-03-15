@@ -106,13 +106,30 @@ class FartDetailFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(isLooping){
+            startPlaying()
+            binding.loop.setImageResource(R.drawable.highlightedloop)
+            mPlayer?.isLooping = true
+            isLooping = true
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         mPlayer?.pause()
-       /* activity?.let { activity ->
-            val volumeReceiver = VolumeReciver(activity,binding.seekBar)
-            activity.unregisterReceiver(volumeReceiver)
-        }*/
+        binding.fartLoti.pauseAnimation()
+     /*       binding.loop.setImageResource(R.drawable.dimloop)
+            mPlayer?.isLooping = false
+            isLooping = false
+*/
+
+
+        /* activity?.let { activity ->
+             val volumeReceiver = VolumeReciver(activity,binding.seekBar)
+             activity.unregisterReceiver(volumeReceiver)
+         }*/
 
 
     }
@@ -222,6 +239,12 @@ class FartDetailFragment : Fragment() {
         }
         mPlayer?.setOnCompletionListener {
             binding.fartLoti.pauseAnimation()
+            if (!isLooping){
+
+                mPlayer?.seekTo(0)
+                binding.fartLoti.progress = 0.0f
+
+            }
 
         }
     }
