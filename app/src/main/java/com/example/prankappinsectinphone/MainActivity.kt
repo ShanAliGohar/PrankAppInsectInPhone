@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.prankappinsectinphone.adapters.HomeScreenAdapter
 import com.example.prankappinsectinphone.databinding.ActivityMainBinding
+import com.example.prankappinsectinphone.downloaders.AndroidDownloader
 import com.example.prankappinsectinphone.fragments.InsectsHomeFragment
 import com.example.prankappinsectinphone.service.OverlayService
 import com.example.prankappinsectinphone.utils.Constant
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     var ic: ImageView? = null
     var sharedPrefrence : SharedPreferences? = null
     val PREFS_NAME = "insect_prefs"
+   // val downloader = AndroidDownloader(this)
 
 
     @SuppressLint("CommitPrefEdits")
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
-
+      //  downloader.downloadFile("https://drive.google.com/u/3/uc?id=1sA_RBAhOKLw9-BmdFu_VxpAnf5vlbAqb&export=download")
 
          ic = findViewById(R.id.volume_icon)
 
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onVolumeUpdate(volumeValue  : Int){
         if ( volumeValue == 0 ){
-           ic?.setImageResource(R.drawable.muteicon)
+           ic?.setImageResource(R.drawable.mutedvolumeicon)
         } else{
            ic?.setImageResource(R.drawable.volume_icon)
 

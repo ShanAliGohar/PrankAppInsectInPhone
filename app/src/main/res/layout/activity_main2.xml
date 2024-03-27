@@ -7,10 +7,4 @@
     android:orientation="vertical"
     tools:context=".MainActivity2">
 
-    <!-- Other views -->
-
-
-
-    <!-- Other views -->
-
 </LinearLayout>

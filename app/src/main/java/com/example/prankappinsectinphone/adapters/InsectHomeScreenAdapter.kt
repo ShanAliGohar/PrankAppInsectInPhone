@@ -75,27 +75,19 @@ class InsectHomeScreenAdapter(
 
         if (gridItems[position].isChecked) {
             holder.tickIcons.visibility = View.VISIBLE
-            resourceSelection(position)
+           // resourceSelection(position)
         } else {
             holder.tickIcons.visibility = View.GONE
-            // holder.imageView.isClickable = false
 
         }
-        /*
-                if (isServiceRunning && !gridItems[position].isChecked) {
-                    holder.imageView.isClickable = false
-                }*/
 
         holder.itemView.setOnClickListener {
-
-
 
             if (!Constant.isStart) {
                 saveCheckedState(position)
                 uncheckedAll(position, holder.itemView)
                 notifyDataSetChanged()
                 resourceSelection(position)
-
                 val startButtonColorResource = getStartButtonColorResource(position)
                 val startButtonBackgroundColorResource = getStartButtonBackgroundColorResource(position)
                 Log.d("Adapter", "Item clicked at position $position, startButtonColorResource: $startButtonColorResource, startButtonBackgroundColorResource: $startButtonBackgroundColorResource")
@@ -113,6 +105,7 @@ class InsectHomeScreenAdapter(
                 Constant.startButtonColorResource = R.color.darkPurple
                 Constant.startButtonBackgroundColorResource = R.color.lightPurple
             }
+
             1 -> {
                 Constant.startButtonColorResource = R.color.darkOrange
                 Constant.startButtonBackgroundColorResource = R.color.lightOrange
@@ -153,14 +146,14 @@ class InsectHomeScreenAdapter(
             else -> R.color.lightPurple // Handle default background color
         }
     }
-
+    //https://drive.google.com/file/d/1fQq0y7H5mr1Ge5uY1EUgg4XQQoslgN87/view
     fun resourceSelection(position: Int) {
         Constant.resource = when (position) {
-            0 -> R.raw.snakenew
-            1 -> R.raw.butterfly
-            2 -> R.raw.spiderbig
-            3 -> R.raw.bugsbed
-            4 -> R.raw.fly
+            0 -> "https://drive.google.com/uc?export=download&id=1sA_RBAhOKLw9-BmdFu_VxpAnf5vlbAqb" //
+            1 -> "https://drive.google.com/uc?export=download&id=1-CJ-fq_u5i5s37YRv6InALLNQEmasqBw"
+            2 -> "https://drive.google.com/uc?export=download&id=1sA_RBAhOKLw9-BmdFu_VxpAnf5vlbAqb"
+            3 -> "https://drive.google.com/uc?export=download&id=1fQq0y7H5mr1Ge5uY1EUgg4XQQoslgN87" //
+            4 -> "https://drive.google.com/uc?export=download&id=1ZwIUETSzeZyZFnldjS65E9LLpk7ZwJDQ"
             else -> Constant.resource
         }
         Constant.musicResource = when (position) {

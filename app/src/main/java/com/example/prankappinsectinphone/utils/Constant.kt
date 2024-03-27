@@ -20,7 +20,7 @@ object Constant {
     var SPIDER_SELECTED = false
     var ANT_SELECTED = false
     var COCKROCH_SELECTED = false
-    var resource: Int = R.raw.snakenew
+    var resource: String = "https://drive.google.com/uc?export=download&id=1sA_RBAhOKLw9-BmdFu_VxpAnf5vlbAqb"
     var musicResource: Int = R.raw.snakesound
     var isStart: Boolean = false
     var isInHome: Boolean = false
