@@ -20,10 +20,14 @@ object Constant {
     var SPIDER_SELECTED = false
     var ANT_SELECTED = false
     var COCKROCH_SELECTED = false
-    var resource: String = "https://drive.google.com/uc?export=download&id=1sA_RBAhOKLw9-BmdFu_VxpAnf5vlbAqb"
+    var resource: String = "https://drive.google.com/uc?export=download&id=1waVyqX4jEh7R-YbaBy378xmywelh0m_S"
     var musicResource: Int = R.raw.snakesound
     var isStart: Boolean = false
     var isInHome: Boolean = false
+
+    var isDownloadStarted : Boolean = false
+
+    var hashCode :String = ""
 
 
     var startButtonColorResource : Int = R.color.darkPurple

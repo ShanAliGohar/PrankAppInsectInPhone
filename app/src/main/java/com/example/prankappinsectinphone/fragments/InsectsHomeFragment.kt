@@ -1,7 +1,9 @@
 package com.example.prankappinsectinphone.fragments
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.net.Uri
@@ -14,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.prankappinsectinphone.adapters.InsectHomeScreenAdapter
@@ -88,14 +91,13 @@ class InsectsHomeFragment : Fragment(), ColorSelectionListener {
             )
         }
 
+
+
+
+
         binding.gridRecyclerView.adapter = adapter
 
         startButtonColorResourceID?.let { binding.bottomView.resources.getColor(it) }
-      /*  startButtonColorResourceID?.let {
-            binding.initConstrainLO.resources.getColor(
-                it
-            )
-        }*/
 
         binding.bottomView.setOnClickListener {
             if (hasOverlayPermission()) {
@@ -154,7 +156,6 @@ class InsectsHomeFragment : Fragment(), ColorSelectionListener {
     }
 
     private fun startService() {
-
 
         val serviceIntent = Intent(requireContext(), OverlayService::class.java)
         serviceIntent.putExtra("spider", Constant.resource)

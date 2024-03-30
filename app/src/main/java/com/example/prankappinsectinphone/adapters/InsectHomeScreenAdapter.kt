@@ -3,12 +3,14 @@ package com.example.prankappinsectinphone.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Bundle
+import android.media.Image
+import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.`interface`.ColorSelectionListener
@@ -18,7 +20,7 @@ import com.example.prankappinsectinphone.utils.Constant
 class InsectHomeScreenAdapter(
     private val context: Context,
     private var gridItems: List<InsectsScreenItems>,
-    private var isServiceRunning: Boolean,
+    isServiceRunning: Boolean,
     var colorSelectionListener: ColorSelectionListener
 
 ) : RecyclerView.Adapter<InsectHomeScreenAdapter.ViewHolder>() {
@@ -26,7 +28,6 @@ class InsectHomeScreenAdapter(
     private val PREFS_NAME = "insect_prefs"
 
 
-    // Function to save checked state to SharedPreferences
     private fun saveCheckedState(position: Int) {
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -35,20 +36,24 @@ class InsectHomeScreenAdapter(
         editor.apply()
     }
 
-    // Function to load checked state from SharedPreferences
-
     private fun loadCheckedState(): Int {
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         return sharedPreferences.getInt("checked_position", -1)
     }
 
-
+    private fun checkDownloadedItem(holder: ViewHolder, position: Int){
+        when (position) {
+            0 -> if (Constant.hashCode == "687930742") holder.downloadIcon.visibility = View.GONE
+            1 -> if (Constant.hashCode == "2") holder.downloadIcon.visibility = View.GONE
+            4 -> if (Constant.hashCode == "3") holder.downloadIcon.visibility = View.GONE
+        }
+    }
     init {
-        // Retrieve the saved checked position when the adapter is initialized
+
         val checkedPosition = loadCheckedState()
         if (checkedPosition != -1) {
-            // Set the isChecked property of the corresponding item
+
             gridItems = gridItems.mapIndexed { index, item ->
                 if (index == checkedPosition) {
                     item.isChecked = true
@@ -58,9 +63,9 @@ class InsectHomeScreenAdapter(
                 item
             }
         }
-
-
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
@@ -75,17 +80,19 @@ class InsectHomeScreenAdapter(
 
         if (gridItems[position].isChecked) {
             holder.tickIcons.visibility = View.VISIBLE
-           // resourceSelection(position)
+
         } else {
             holder.tickIcons.visibility = View.GONE
 
         }
-
+        checkDownloadedItem(holder,position)
         holder.itemView.setOnClickListener {
 
             if (!Constant.isStart) {
                 saveCheckedState(position)
                 uncheckedAll(position, holder.itemView)
+/*                showDownloadIconOnAll(position,holder.itemView)
+                setDownloadIconVisibility(position,holder)*/
                 notifyDataSetChanged()
                 resourceSelection(position)
                 val startButtonColorResource = getStartButtonColorResource(position)
@@ -97,30 +104,17 @@ class InsectHomeScreenAdapter(
                 )
             }
         }
+
     }
 
-    fun colorSelection(position: Int) {
-        when (position) {
-            0 -> {
-                Constant.startButtonColorResource = R.color.darkPurple
-                Constant.startButtonBackgroundColorResource = R.color.lightPurple
-            }
+    private fun setDownloadIconVisibility(position:Int,holder: ViewHolder){
+        if (!Constant.isDownloadStarted){
+            if (gridItems[position].isDownloading) {
+                holder.downloadIcon.visibility = View.GONE
 
-            1 -> {
-                Constant.startButtonColorResource = R.color.darkOrange
-                Constant.startButtonBackgroundColorResource = R.color.lightOrange
-            }
-            2 -> {
-                Constant.startButtonColorResource = R.color.darkPink
-                Constant.startButtonBackgroundColorResource = R.color.lightPink
-            }
-            3 -> {
-                Constant.startButtonColorResource = R.color.darkPurple
-                Constant.startButtonBackgroundColorResource = R.color.lightPurple
-            }
-            4 -> {
-                Constant.startButtonColorResource = R.color.darksky
-                Constant.startButtonBackgroundColorResource = R.color.lightSky
+            } else {
+                holder.downloadIcon.visibility  = View.VISIBLE
+
             }
         }
     }
@@ -132,7 +126,7 @@ class InsectHomeScreenAdapter(
             2 -> R.color.darkPink
             3 -> R.color.darkRed
             4 -> R.color.darkPurple
-            else -> R.color.darkPurple // Handle default color
+            else -> R.color.darkPurple
         }
     }
 
@@ -143,19 +137,20 @@ class InsectHomeScreenAdapter(
             2 -> R.color.lightPink
             3 -> R.color.lightRed
             4 -> R.color.lightPurple
-            else -> R.color.lightPurple // Handle default background color
+            else -> R.color.lightPurple
         }
     }
-    //https://drive.google.com/file/d/1fQq0y7H5mr1Ge5uY1EUgg4XQQoslgN87/view
+
     fun resourceSelection(position: Int) {
         Constant.resource = when (position) {
-            0 -> "https://drive.google.com/uc?export=download&id=1sA_RBAhOKLw9-BmdFu_VxpAnf5vlbAqb" //
+            0 -> "https://drive.google.com/uc?export=download&id=1teT7oxLtpgqvzePSN8BE7txYJI-vvtdU" //
             1 -> "https://drive.google.com/uc?export=download&id=1-CJ-fq_u5i5s37YRv6InALLNQEmasqBw"
             2 -> "https://drive.google.com/uc?export=download&id=1sA_RBAhOKLw9-BmdFu_VxpAnf5vlbAqb"
             3 -> "https://drive.google.com/uc?export=download&id=1fQq0y7H5mr1Ge5uY1EUgg4XQQoslgN87" //
             4 -> "https://drive.google.com/uc?export=download&id=1ZwIUETSzeZyZFnldjS65E9LLpk7ZwJDQ"
             else -> Constant.resource
         }
+
         Constant.musicResource = when (position) {
             0 -> R.raw.snakesound
             1 -> R.raw.butterflysecondsound
@@ -174,6 +169,9 @@ class InsectHomeScreenAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val tickIcons: ImageView = itemView.findViewById(R.id.tick_icons)
+        val progress : ProgressBar = itemView.findViewById<ProgressBar>(R.id.adapterProgressView)
+        val downloadIcon : ImageView = itemView.findViewById<ImageView>(R.id.download_icons)
+
     }
 
     fun uncheckedAll(position: Int, view: View) {
@@ -181,7 +179,15 @@ class InsectHomeScreenAdapter(
             gridItems[i].isChecked = (position == i)
         }
         notifyDataSetChanged()
+
     }
+    fun showDownloadIconOnAll(position: Int, view: View) {
+        for (i in gridItems.indices) {
+            gridItems[i].isDownloading = (position == i)
+        }
+        notifyDataSetChanged()
+    }
+
 
 
 
