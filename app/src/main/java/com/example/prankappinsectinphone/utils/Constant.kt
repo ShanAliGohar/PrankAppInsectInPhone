@@ -140,4 +140,6 @@ object Constant {
         return sharedPreferences.getBoolean("isStart", false) // Default value is false if key not found
     }
 
+
+
 }

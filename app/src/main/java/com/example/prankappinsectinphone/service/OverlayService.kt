@@ -1,13 +1,18 @@
 package com.example.prankappinsectinphone.service
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.app.DownloadManager
 import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.PixelFormat
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.net.Uri
@@ -23,34 +28,40 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.prankappinsectinphone.R
-import com.example.prankappinsectinphone.receiver.DownloadCompleteReceiver
 import com.example.prankappinsectinphone.utils.Constant
+import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.net.URI
 
+
 class OverlayService : Service() {
 
-
     private var windowManager: WindowManager? = null
+
     private var overlayView: View? = null
+
     private var mediaPlayer: MediaPlayer? = null
+
     private var musicResource : Int? = null
 
 
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
-
-
 
     override fun onCreate() {
         super.onCreate()
@@ -58,7 +69,6 @@ class OverlayService : Service() {
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
 
     }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -137,6 +147,7 @@ class OverlayService : Service() {
         overlayView = inflater.inflate(R.layout.overlay_layout, null)
         mediaPlayer = MediaPlayer.create(this, musicResource)
 
+
         val img = overlayView?.findViewById<ImageView>(R.id.img)
         img?.let {
 
@@ -167,8 +178,6 @@ class OverlayService : Service() {
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
-                        val imgGif = overlayView?.findViewById<ProgressBar>(R.id.progressBar)
-                        imgGif?.visibility = View.GONE
                             mediaPlayer?.start()
                             mediaPlayer?.isLooping = true
                         return false
@@ -176,8 +185,7 @@ class OverlayService : Service() {
                     }
                 }).into(it)
             } else {
-
-                downloadPic("cached_image_${resource.hashCode()}", resource)
+                    downloadPic("cached_image_${resource}", resource)
 
             }
 
@@ -199,7 +207,10 @@ class OverlayService : Service() {
             PixelFormat.TRANSLUCENT
         )
 
+
         windowManager?.addView(overlayView, layoutParams)
+
+
     }
 
     companion object {
@@ -209,13 +220,17 @@ class OverlayService : Service() {
         const val EXTRA_DOWNLOAD_ID = "extra_download_id"
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun downloadPic(placeName: String?, cityImage: String?) {
 
+
+
         if (placeName == null || cityImage == null) {
+
             Log.e(TAG, "Invalid parameters for downloading picture")
+
             return
+
         }
 
         try {
@@ -229,26 +244,25 @@ class OverlayService : Service() {
             }
 
             val dm: DownloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+
             val downloadUri = Uri.parse(cityImage)
+
             val request: DownloadManager.Request = DownloadManager.Request(downloadUri)
+
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
                 .setAllowedOverRoaming(false)
                 .setTitle(placeName)
                 .setMimeType("image/gif")
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 .setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS, placeName)
-
-            // Enqueue the download request
             val downloadId = dm.enqueue(request)
 
-            // Register a BroadcastReceiver to listen for download completion
             val receiver = object : BroadcastReceiver() {
                 @SuppressLint("Range")
                 override fun onReceive(context: Context?, intent: Intent?) {
                     val action = intent?.action
                     if (DownloadManager.ACTION_DOWNLOAD_COMPLETE == action) {
 
-                        // Extract the download ID from the intent
                         val receivedDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
                         if (downloadId == receivedDownloadId) {
                             val query = DownloadManager.Query().setFilterById(downloadId)
@@ -256,7 +270,6 @@ class OverlayService : Service() {
                             if (cursor.moveToFirst()) {
                                 val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
                                 if (DownloadManager.STATUS_SUCCESSFUL == cursor.getInt(columnIndex)) {
-                                    // File downloaded successfully
                                     val downloadedFileUri =
                                         cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
                                     val downloadedFile = File(URI.create(downloadedFileUri))
@@ -285,6 +298,7 @@ class OverlayService : Service() {
             Toast.makeText(this, "Image download failed.", Toast.LENGTH_SHORT).show()
         }
     }
+
     private fun loadWithGlide(imageView: ImageView?, downloadedFile: File) {
         imageView?.let {
 
@@ -307,8 +321,7 @@ class OverlayService : Service() {
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
-                        val imgGif = overlayView?.findViewById<ProgressBar>(R.id.progressBar)
-                        imgGif?.visibility = View.GONE
+
                         mediaPlayer?.start()
                         mediaPlayer?.isLooping = true
                         Toast.makeText(this@OverlayService, "file is ready ", Toast.LENGTH_SHORT).show()
@@ -317,6 +330,6 @@ class OverlayService : Service() {
                 })
                 .into(it)
         }
-    }
 
+    }
 }

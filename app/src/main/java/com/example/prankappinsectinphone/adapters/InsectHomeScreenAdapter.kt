@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.`interface`.ColorSelectionListener
@@ -26,6 +28,7 @@ class InsectHomeScreenAdapter(
 ) : RecyclerView.Adapter<InsectHomeScreenAdapter.ViewHolder>() {
 
     private val PREFS_NAME = "insect_prefs"
+    var sharedPref: SharedPreferences? = null
 
 
     private fun saveCheckedState(position: Int) {
@@ -42,13 +45,34 @@ class InsectHomeScreenAdapter(
         return sharedPreferences.getInt("checked_position", -1)
     }
 
+/*
     private fun checkDownloadedItem(holder: ViewHolder, position: Int){
+
+
         when (position) {
-            0 -> if (Constant.hashCode == "687930742") holder.downloadIcon.visibility = View.GONE
-            1 -> if (Constant.hashCode == "2") holder.downloadIcon.visibility = View.GONE
-            4 -> if (Constant.hashCode == "3") holder.downloadIcon.visibility = View.GONE
+            0 -> if (Constant.hashCode == "687930742" && (sharedPref?.getString("stop/start", null) == "Stop" )) {
+          //      holder.downloadIcon.visibility = View.GONE
+                holder.progress.visibility = View.VISIBLE
+            }
+            1 -> if (Constant.hashCode == "-657173189" && (sharedPref?.getString("stop/start", null) == "Stop" )){
+                holder.downloadIcon.visibility = View.GONE
+                holder.progress.visibility = View.VISIBLE
+            }
+            2 -> if (Constant.hashCode == "304653947" && (sharedPref?.getString("stop/start", null) == "Stop" )){
+                holder.downloadIcon.visibility = View.GONE
+                holder.progress.visibility = View.VISIBLE
+            }
+            3 -> if (Constant.hashCode == "30128402" && (sharedPref?.getString("stop/start", null) == "Stop" )) {
+                holder.downloadIcon.visibility = View.GONE
+                holder.progress.visibility = View.VISIBLE
+            }
+            4 -> if (Constant.hashCode == "888442228" && (sharedPref?.getString("stop/start", null) == "Stop" )) {
+                holder.downloadIcon.visibility = View.GONE
+                holder.progress.visibility = View.VISIBLE
+            }
         }
     }
+*/
     init {
 
         val checkedPosition = loadCheckedState()
@@ -70,6 +94,8 @@ class InsectHomeScreenAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.insects_screen_item, parent, false)
+        sharedPref = context.getSharedPreferences("START_SERVICE", Context.MODE_PRIVATE)
+
         return ViewHolder(view)
     }
 
@@ -85,14 +111,14 @@ class InsectHomeScreenAdapter(
             holder.tickIcons.visibility = View.GONE
 
         }
-        checkDownloadedItem(holder,position)
+
+
+
         holder.itemView.setOnClickListener {
 
             if (!Constant.isStart) {
                 saveCheckedState(position)
                 uncheckedAll(position, holder.itemView)
-/*                showDownloadIconOnAll(position,holder.itemView)
-                setDownloadIconVisibility(position,holder)*/
                 notifyDataSetChanged()
                 resourceSelection(position)
                 val startButtonColorResource = getStartButtonColorResource(position)
@@ -107,17 +133,6 @@ class InsectHomeScreenAdapter(
 
     }
 
-    private fun setDownloadIconVisibility(position:Int,holder: ViewHolder){
-        if (!Constant.isDownloadStarted){
-            if (gridItems[position].isDownloading) {
-                holder.downloadIcon.visibility = View.GONE
-
-            } else {
-                holder.downloadIcon.visibility  = View.VISIBLE
-
-            }
-        }
-    }
 
     private fun getStartButtonColorResource(position: Int): Int {
         return when (position) {
@@ -180,12 +195,6 @@ class InsectHomeScreenAdapter(
         }
         notifyDataSetChanged()
 
-    }
-    fun showDownloadIconOnAll(position: Int, view: View) {
-        for (i in gridItems.indices) {
-            gridItems[i].isDownloading = (position == i)
-        }
-        notifyDataSetChanged()
     }
 
 
