@@ -47,9 +47,6 @@ class OverlayService : Service() {
 
     private var musicResource : Int? = null
 
-
-    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
-
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -142,16 +139,15 @@ class OverlayService : Service() {
         val img = overlayView?.findViewById<ImageView>(R.id.img)
         img?.let {
 
+            val filename = Constant.placeName
             val cachedFilePath = File(
-                this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),
-                "cached_image_${resource.hashCode()}"
+                this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),resource
             )
-            Constant.hashCode = resource.hashCode().toString()
-            Log.d("TAG", "cached_image_: ${resource.hashCode()} ")
+            Log.d("TAG", "respourcelog: $resource")
+            
             if (cachedFilePath.exists()) {
                 Glide.with(this).load(cachedFilePath).addListener(object :
                     RequestListener<Drawable?> {
-
                     override fun onLoadFailed(
                         e: GlideException?,
                         model: Any?,
@@ -172,12 +168,10 @@ class OverlayService : Service() {
                             mediaPlayer?.start()
                             mediaPlayer?.isLooping = true
                         return false
-
                     }
                 }).into(it)
             } else {
-                    downloadPic("cached_image_${resource}", resource)
-
+                Toast.makeText(this, "please download the $resource first ", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -211,117 +205,6 @@ class OverlayService : Service() {
         const val EXTRA_DOWNLOAD_ID = "extra_download_id"
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun downloadPic(placeName: String?, cityImage: String?) {
 
-
-
-        if (placeName == null || cityImage == null) {
-
-            Log.e(TAG, "Invalid parameters for downloading picture")
-
-            return
-
-        }
-
-        try {
-            val cachedFile =
-                File(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), placeName)
-            if (cachedFile.exists()) {
-                Log.d(TAG, "Image already cached, skipping download")
-                // If the file is already cached, no need to download it again
-                loadWithGlide(overlayView?.findViewById(R.id.img), cachedFile)
-                return
-            }
-
-            val dm: DownloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-
-            val downloadUri = Uri.parse(cityImage)
-
-            val request: DownloadManager.Request = DownloadManager.Request(downloadUri)
-
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
-                .setAllowedOverRoaming(false)
-                .setTitle(placeName)
-                .setMimeType("image/gif")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setDestinationInExternalFilesDir(this, Environment.DIRECTORY_DOWNLOADS, placeName)
-            val downloadId = dm.enqueue(request)
-
-            val receiver = object : BroadcastReceiver() {
-                @SuppressLint("Range")
-                override fun onReceive(context: Context?, intent: Intent?) {
-                    val action = intent?.action
-                    if (DownloadManager.ACTION_DOWNLOAD_COMPLETE == action) {
-
-                        val receivedDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-                        if (downloadId == receivedDownloadId) {
-                            val query = DownloadManager.Query().setFilterById(downloadId)
-                            val cursor = dm.query(query)
-                            if (cursor.moveToFirst()) {
-                                val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
-                                if (DownloadManager.STATUS_SUCCESSFUL == cursor.getInt(columnIndex)) {
-                                    val downloadedFileUri =
-                                        cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
-                                    val downloadedFile = File(URI.create(downloadedFileUri))
-                                    // Load the downloaded file
-                                    loadWithGlide(overlayView?.findViewById(R.id.img), downloadedFile)
-                                    Constant.isDownloadStarted = true
-
-                                }
-                            }
-                            cursor.close()
-                            // Unregister the BroadcastReceiver
-                            unregisterReceiver(this)
-                        }
-                    }
-                }
-            }
-
-            // Register the BroadcastReceiver to listen for download completion
-            registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
-                RECEIVER_NOT_EXPORTED
-            )
-
-            Toast.makeText(this, "Image download started.", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            Log.e(TAG, "DownloadPic: ${e.localizedMessage}")
-            Toast.makeText(this, "Image download failed.", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun loadWithGlide(imageView: ImageView?, downloadedFile: File) {
-        imageView?.let {
-
-            Glide.with(this)
-                .load(downloadedFile)
-                .addListener(object : RequestListener<Drawable?> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable?>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable?>?,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-
-                        mediaPlayer?.start()
-                        mediaPlayer?.isLooping = true
-                        Toast.makeText(this@OverlayService, "file is ready ", Toast.LENGTH_SHORT).show()
-                        return false
-                    }
-                })
-                .into(it)
-        }
-
-    }
 
 }

@@ -20,7 +20,7 @@ object Constant {
     var SPIDER_SELECTED = false
     var ANT_SELECTED = false
     var COCKROCH_SELECTED = false
-    var resource: String = "https://drive.google.com/uc?export=download&id=1waVyqX4jEh7R-YbaBy378xmywelh0m_S"
+    var resource: String = ""
     var musicResource: Int = R.raw.snakesound
     var isStart: Boolean = false
     var isInHome: Boolean = false
@@ -28,6 +28,8 @@ object Constant {
     var isDownloadStarted : Boolean = false
 
     var hashCode :String = ""
+
+    val placeName : ArrayList<String> = ArrayList()
 
 
     var startButtonColorResource : Int = R.color.darkPurple
@@ -52,7 +54,7 @@ object Constant {
 
         return arrayListOf(
             InsectsScreenItems(
-                R.drawable.snake_img, true,
+                R.drawable.snake_img, false,
             ), InsectsScreenItems(
                 R.drawable.butterfly_image, false,
             ), InsectsScreenItems(
