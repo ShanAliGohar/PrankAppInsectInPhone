@@ -1,16 +1,20 @@
 package com.example.prankappinsectinphone
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
+import android.graphics.Color
 import android.media.Image
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.example.prankappinsectinphone.adapters.HomeScreenAdapter
 import com.example.prankappinsectinphone.databinding.ActivityMainBinding
@@ -53,8 +57,39 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (!isInHome) {
             findNavController(R.id.splashFragment).navigateUp()
-        } else {
+        } else if (isInHome) {
+            val dialog = Dialog(this)
+            dialog.requestWindowFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+            dialog.setContentView(R.layout.exit_dialouge)
+            dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            var yesBtn = dialog.findViewById<ImageView>(R.id.yesBtn)
+            var noBtn = dialog.findViewById<ImageView>(R.id.no_btn)
+            var yesText = dialog.findViewById<TextView>(R.id.yes_txt)
+            var noTxt = dialog.findViewById<TextView>(R.id.no_txt)
+
+            yesBtn.setOnClickListener {
+                super.onBackPressed()
+                yesText.setTextColor(ContextCompat.getColor(this, R.color.white))
+                noTxt.setTextColor(ContextCompat.getColor(this, R.color.black))
+
+                yesBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.darkOrange))
+                noBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                dialog.dismiss()
+            }
+
+            noBtn.setOnClickListener {
+                noTxt.setTextColor(ContextCompat.getColor(this, R.color.white))
+                yesText.setTextColor(ContextCompat.getColor(this, R.color.black))
+                noBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.darkOrange))
+                yesBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+                dialog.dismiss()
+            }
+
+            dialog.show()
+            Log.d("TAG", "onBackPressed: you can exit me now ")
+        }else{
             super.onBackPressed()
+
         }
     }
 

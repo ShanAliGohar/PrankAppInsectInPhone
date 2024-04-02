@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.graphics.PixelFormat
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
@@ -47,6 +48,9 @@ class OverlayService : Service() {
 
     private var musicResource : Int? = null
 
+    private var sharedPreferences : SharedPreferences? = null
+    private val PREFS_NAME = "insect_prefs"
+
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -55,7 +59,7 @@ class OverlayService : Service() {
         super.onCreate()
         Log.d("TAG", "onCreate: OverlayService created")
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-
+        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -63,14 +67,16 @@ class OverlayService : Service() {
         if (intent != null && intent.hasExtra("spider") && intent.hasExtra("soundEffect")) {
             val spiderResourceId = intent.getStringExtra("spider")
              musicResource = intent.getIntExtra("soundEffect", R.raw.snakesound)
-            checkOverlayPermissionAndCreateOverlay(spiderResourceId!!, musicResource!!)
+            val constantResource = sharedPreferences?.getString("constant_resource", "")
+            val constantResourceMusic = sharedPreferences?.getInt("constant_resource_music", 0)
+
+            checkOverlayPermissionAndCreateOverlay(constantResource!!, constantResourceMusic!!)
         } else {
             Log.e("TAG", "Overlay permission not granted")
             Toast.makeText(this, "Overlay permission not granted", Toast.LENGTH_SHORT).show()
             stopSelf()
+
         }
-
-
         return START_NOT_STICKY
     }
 
@@ -154,6 +160,7 @@ class OverlayService : Service() {
                         target: Target<Drawable?>,
                         isFirstResource: Boolean
                     ): Boolean {
+                        Toast.makeText(this@OverlayService, "Please check your Internet Connection", Toast.LENGTH_SHORT).show()
                         return false
                     }
 

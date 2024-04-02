@@ -13,11 +13,14 @@ import android.content.SharedPreferences
 import android.database.Cursor
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -98,7 +101,6 @@ class InsectHomeScreenAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
 
-
         val item = gridItems[position]
         holder.imageView.setImageResource(item.imageResource)
 
@@ -118,6 +120,8 @@ class InsectHomeScreenAdapter(
         val fileName = placeName[position]
         val cachedFile = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
 
+        val downloadIconVisibility = loadDownloadIconVisibility(position)
+        holder.downloadIcon.visibility = downloadIconVisibility
 
         holder.itemView.setOnClickListener {
 
@@ -145,14 +149,23 @@ class InsectHomeScreenAdapter(
                     4 -> "https://drive.google.com/uc?export=download&id=1ZwIUETSzeZyZFnldjS65E9LLpk7ZwJDQ"
                     else -> ""
                 }
+                if (!isInternetAvailable(context)) {
+                    showToast(context, "Internet connection lost. Please enable internet to download.")
+                    promptToEnableInternet(context)
+                }else if (imageUrl.isNotEmpty()){
 
-                if (imageUrl.isNotEmpty()) {
-                    downloadPic(fileName, imageUrl, context,holder)
+                    downloadPic(fileName, imageUrl, context,holder,position)
                     showDialouge(context)
+
+                    saveDownloadIconVisibility(position, View.VISIBLE)
+
                 }
             } else {
+                saveDownloadIconVisibility(position, View.GONE)
 
             }
+            saveResourceToSharedPreferences(Constant.resource)
+            saveMusicResourceToSharedPreferences(Constant.musicResource)
 
         }
 
@@ -209,7 +222,6 @@ class InsectHomeScreenAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val tickIcons: ImageView = itemView.findViewById(R.id.tick_icons)
-        val progress : ProgressBar = itemView.findViewById<ProgressBar>(R.id.adapterProgressView)
         val downloadIcon : ImageView = itemView.findViewById<ImageView>(R.id.download_icons)
 
     }
@@ -221,6 +233,7 @@ class InsectHomeScreenAdapter(
         notifyDataSetChanged()
 
     }
+
 
     @SuppressLint("Range")
     private fun showDialouge(context:Context) {
@@ -235,7 +248,7 @@ class InsectHomeScreenAdapter(
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun downloadPic(placeName: String?, cityImage: String?,context: Context,holder:ViewHolder) {
+    private fun downloadPic(placeName: String?, cityImage: String?,context: Context,holder:ViewHolder,position: Int) {
         if (placeName == null || cityImage == null) {
             return
         }
@@ -244,7 +257,7 @@ class InsectHomeScreenAdapter(
             val cachedFile =
                 File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), placeName)
             if (cachedFile.exists()) {
-                // If the file is already cached, no need to download it again
+                holder.downloadIcon.visibility = View.GONE // Hide download icon if file already exists
                 return
             }
 
@@ -256,6 +269,8 @@ class InsectHomeScreenAdapter(
             val request: DownloadManager.Request = DownloadManager.Request(downloadUri)
 
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE)
+
                 .setAllowedOverRoaming(false)
                 .setTitle(placeName)
                 .setMimeType("image/gif")
@@ -290,18 +305,16 @@ class InsectHomeScreenAdapter(
                 Context.RECEIVER_NOT_EXPORTED
             )
 
-            checkDownloadStatus()
+            checkDownloadStatus(holder, position)
 
         } catch (e: Exception) {
             Toast.makeText(context, "Image download failed.", Toast.LENGTH_SHORT).show()
         }
-
-
     }
-    @SuppressLint("Range", "SetTextI18n")
-    private fun checkDownloadStatus() {
-        val query = downloadId?.let { DownloadManager.Query().setFilterById(it) }
 
+    @SuppressLint("Range", "SetTextI18n")
+    private fun checkDownloadStatus(holder:ViewHolder,position: Int) {
+        val query = downloadId?.let { DownloadManager.Query().setFilterById(it) }
         Thread {
             var downloading = true
             while (downloading) {
@@ -312,6 +325,9 @@ class InsectHomeScreenAdapter(
                         DownloadManager.STATUS_SUCCESSFUL -> {
                             downloading = false
                             Handler(Looper.getMainLooper()).post {
+                                holder.downloadIcon.visibility = View.GONE
+                                saveDownloadIconVisibility(position, View.GONE)
+
                                 dialog?.dismiss()
                             }
                         }
@@ -321,6 +337,7 @@ class InsectHomeScreenAdapter(
                                 dialog?.dismiss()
                             }
                         }
+
                         else -> {
                             val bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
                             val bytesTotal = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
@@ -335,7 +352,63 @@ class InsectHomeScreenAdapter(
                 cursor?.close()
             }
         }.start()
+
+    }
+    private fun saveDownloadIconVisibility(position: Int, visibility: Int) {
+        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("download_icon_$position", visibility)
+        editor.apply()
+    }
+    private fun loadDownloadIconVisibility(position: Int): Int {
+        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return sharedPreferences.getInt("download_icon_$position", View.VISIBLE) // Default value is View.VISIBLE
     }
 
+    @SuppressLint("MissingPermission")
+    private fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(network) ?: return false
+
+            return when {
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            val networkInfo = connectivityManager.activeNetworkInfo ?: return false
+            @Suppress("DEPRECATION")
+            return networkInfo.isConnected
+        }
+    }
+
+    private fun promptToEnableInternet(context: Context) {
+        // Prompt the user to enable internet connectivity
+        val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+        context.startActivity(intent)
+    }
+
+    private fun showToast(context: Context, message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+    private fun saveResourceToSharedPreferences(resource: String) {
+        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("constant_resource", resource)
+        editor.apply()
+    }
+    private fun saveMusicResourceToSharedPreferences(resource: Int) {
+        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("constant_resource_music", resource)
+        editor.apply()
+    }
 }
 
