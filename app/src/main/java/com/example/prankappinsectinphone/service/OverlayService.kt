@@ -1,6 +1,5 @@
 package com.example.prankappinsectinphone.service
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.DownloadManager
@@ -9,10 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.graphics.Color
 import android.graphics.PixelFormat
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.net.Uri
@@ -26,14 +22,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -41,7 +33,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.utils.Constant
-import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.net.URI
 
@@ -332,4 +323,5 @@ class OverlayService : Service() {
         }
 
     }
+
 }

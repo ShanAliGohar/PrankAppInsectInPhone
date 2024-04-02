@@ -1,10 +1,21 @@
 package com.example.prankappinsectinphone.adapters
 
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.app.DownloadManager
+import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.media.Image
+import android.net.Uri
 import android.opengl.Visibility
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +24,20 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.registerReceiver
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.`interface`.ColorSelectionListener
 import com.example.prankappinsectinphone.models.InsectsScreenItems
+import com.example.prankappinsectinphone.service.OverlayService
 import com.example.prankappinsectinphone.utils.Constant
+import java.io.File
+import java.net.URI
 
 class InsectHomeScreenAdapter(
     private val context: Context,
@@ -117,6 +137,7 @@ class InsectHomeScreenAdapter(
         holder.itemView.setOnClickListener {
 
             if (!Constant.isStart) {
+                showDialouge(context)
                 saveCheckedState(position)
                 uncheckedAll(position, holder.itemView)
                 notifyDataSetChanged()
@@ -197,7 +218,12 @@ class InsectHomeScreenAdapter(
 
     }
 
-
-
+    private fun showDialouge(context:Context) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.download_dialog)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+        dialog.show()
+    }
 
 }
