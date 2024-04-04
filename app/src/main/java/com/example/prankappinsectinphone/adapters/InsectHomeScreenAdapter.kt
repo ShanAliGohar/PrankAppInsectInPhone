@@ -1,18 +1,13 @@
 package com.example.prankappinsectinphone.adapters
 
-import android.R.id
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.DownloadManager
-import android.app.ProgressDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.database.Cursor
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -32,7 +27,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prankappinsectinphone.*
-import com.example.prankappinsectinphone.`interface`.ColorSelectionListener
+import com.example.prankappinsectinphone.fragments.InsectsHomeFragment
+import com.example.prankappinsectinphone.`interface`.OnColorSelectionListner
 import com.example.prankappinsectinphone.models.InsectsScreenItems
 import com.example.prankappinsectinphone.utils.Constant
 import com.example.prankappinsectinphone.utils.Constant.placeName
@@ -43,7 +39,7 @@ class InsectHomeScreenAdapter(
     private val context: Context,
     private var gridItems: List<InsectsScreenItems>,
     isServiceRunning: Boolean,
-    var colorSelectionListener: ColorSelectionListener
+    var colorSelectionListener: OnColorSelectionListner
 
 ) : RecyclerView.Adapter<InsectHomeScreenAdapter.ViewHolder>() {
 
@@ -51,12 +47,12 @@ class InsectHomeScreenAdapter(
     var sharedPref: SharedPreferences? = null
     var dm: DownloadManager? = null
     var downloadId: Long? = null
-    var dialog : Dialog? = null
-    var percent : TextView? = null
-    var progressBar : ProgressBar? = null
+    var dialog: Dialog? = null
+    var percent: TextView? = null
+    var progressBar: ProgressBar? = null
 
 
-        private fun saveCheckedState(position: Int) {
+    private fun saveCheckedState(position: Int) {
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -88,7 +84,6 @@ class InsectHomeScreenAdapter(
     }
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.insects_screen_item, parent, false)
@@ -118,7 +113,8 @@ class InsectHomeScreenAdapter(
         placeName.add("Housefly")
 
         val fileName = placeName[position]
-        val cachedFile = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
+        val cachedFile =
+            File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
 
         val downloadIconVisibility = loadDownloadIconVisibility(position)
         holder.downloadIcon.visibility = downloadIconVisibility
@@ -131,8 +127,12 @@ class InsectHomeScreenAdapter(
                 notifyDataSetChanged()
                 resourceSelection(position)
                 val startButtonColorResource = getStartButtonColorResource(position)
-                val startButtonBackgroundColorResource = getStartButtonBackgroundColorResource(position)
-                Log.d("Adapter", "Item clicked at position $position, startButtonColorResource: $startButtonColorResource, startButtonBackgroundColorResource: $startButtonBackgroundColorResource")
+                val startButtonBackgroundColorResource =
+                    getStartButtonBackgroundColorResource(position)
+                Log.d(
+                    "Adapter",
+                    "Item clicked at position $position, startButtonColorResource: $startButtonColorResource, startButtonBackgroundColorResource: $startButtonBackgroundColorResource"
+                )
                 colorSelectionListener.onColorSelected(
                     startButtonColorResource,
                     startButtonBackgroundColorResource
@@ -150,11 +150,14 @@ class InsectHomeScreenAdapter(
                     else -> ""
                 }
                 if (!isInternetAvailable(context)) {
-                    showToast(context, "Internet connection lost. Please enable internet to download.")
+                    showToast(
+                        context,
+                        "Internet connection lost. Please enable internet to download."
+                    )
                     promptToEnableInternet(context)
-                }else if (imageUrl.isNotEmpty()){
+                } else if (imageUrl.isNotEmpty()) {
 
-                    downloadPic(fileName, imageUrl, context,holder,position)
+                    downloadPic(fileName, imageUrl, context, holder, position)
                     showDialouge(context)
 
                     saveDownloadIconVisibility(position, View.VISIBLE)
@@ -222,7 +225,7 @@ class InsectHomeScreenAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val tickIcons: ImageView = itemView.findViewById(R.id.tick_icons)
-        val downloadIcon : ImageView = itemView.findViewById<ImageView>(R.id.download_icons)
+        val downloadIcon: ImageView = itemView.findViewById<ImageView>(R.id.download_icons)
 
     }
 
@@ -236,11 +239,11 @@ class InsectHomeScreenAdapter(
 
 
     @SuppressLint("Range")
-    private fun showDialouge(context:Context) {
+    private fun showDialouge(context: Context) {
         dialog = Dialog(context)
         dialog?.setContentView(R.layout.download_dialog)
-         percent = dialog?.findViewById<TextView>(R.id.percent)
-        progressBar  =  dialog?.findViewById<ProgressBar>(R.id.progressBar)
+        percent = dialog?.findViewById<TextView>(R.id.percent)
+        progressBar = dialog?.findViewById<ProgressBar>(R.id.progressBar)
         dialog?.setCancelable(false)
 
         dialog?.show()
@@ -248,7 +251,13 @@ class InsectHomeScreenAdapter(
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun downloadPic(placeName: String?, cityImage: String?,context: Context,holder:ViewHolder,position: Int) {
+    private fun downloadPic(
+        placeName: String?,
+        cityImage: String?,
+        context: Context,
+        holder: ViewHolder,
+        position: Int
+    ) {
         if (placeName == null || cityImage == null) {
             return
         }
@@ -257,7 +266,8 @@ class InsectHomeScreenAdapter(
             val cachedFile =
                 File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), placeName)
             if (cachedFile.exists()) {
-                holder.downloadIcon.visibility = View.GONE // Hide download icon if file already exists
+                holder.downloadIcon.visibility =
+                    View.GONE // Hide download icon if file already exists
                 return
             }
 
@@ -313,7 +323,7 @@ class InsectHomeScreenAdapter(
     }
 
     @SuppressLint("Range", "SetTextI18n")
-    private fun checkDownloadStatus(holder:ViewHolder,position: Int) {
+    private fun checkDownloadStatus(holder: ViewHolder, position: Int) {
         val query = downloadId?.let { DownloadManager.Query().setFilterById(it) }
         Thread {
             var downloading = true
@@ -331,6 +341,7 @@ class InsectHomeScreenAdapter(
                                 dialog?.dismiss()
                             }
                         }
+
                         DownloadManager.STATUS_FAILED -> {
                             downloading = false
                             Handler(Looper.getMainLooper()).post {
@@ -339,11 +350,14 @@ class InsectHomeScreenAdapter(
                         }
 
                         else -> {
-                            val bytesDownloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
-                            val bytesTotal = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
-                            val progress = (bytesDownloaded.toFloat() / bytesTotal.toFloat() * 100).toInt()
+                            val bytesDownloaded =
+                                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
+                            val bytesTotal =
+                                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
+                            val progress =
+                                (bytesDownloaded.toFloat() / bytesTotal.toFloat() * 100).toInt()
                             Handler(Looper.getMainLooper()).post {
-                                percent?.text= progress.toString() + "%"
+                                percent?.text = progress.toString() + "%"
                                 progressBar?.progress = progress
                             }
                         }
@@ -354,15 +368,20 @@ class InsectHomeScreenAdapter(
         }.start()
 
     }
+
     private fun saveDownloadIconVisibility(position: Int, visibility: Int) {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putInt("download_icon_$position", visibility)
         editor.apply()
     }
+
     private fun loadDownloadIconVisibility(position: Int): Int {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return sharedPreferences.getInt("download_icon_$position", View.VISIBLE) // Default value is View.VISIBLE
+        return sharedPreferences.getInt(
+            "download_icon_$position",
+            View.VISIBLE
+        ) // Default value is View.VISIBLE
     }
 
     @SuppressLint("MissingPermission")
@@ -398,12 +417,14 @@ class InsectHomeScreenAdapter(
     private fun showToast(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
+
     private fun saveResourceToSharedPreferences(resource: String) {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("constant_resource", resource)
         editor.apply()
     }
+
     private fun saveMusicResourceToSharedPreferences(resource: Int) {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()

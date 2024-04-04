@@ -1,5 +1,5 @@
 package com.example.prankappinsectinphone.`interface`
 
-interface ColorSelectionListener {
+interface OnColorSelectionListner {
     fun onColorSelected(startButtonColorResource: Int, startButtonBackgroundColorResource: Int)
 }

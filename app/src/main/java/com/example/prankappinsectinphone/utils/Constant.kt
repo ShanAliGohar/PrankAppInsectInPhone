@@ -15,25 +15,12 @@ import com.example.prankappinsectinphone.models.PlaylistItem
 import java.io.IOException
 
 object Constant {
-    var HOUSEFLY_SELECTED = false
-    var BUTTERFLY_SELECTED = false
-    var SPIDER_SELECTED = false
-    var ANT_SELECTED = false
-    var COCKROCH_SELECTED = false
     var resource: String = ""
     var musicResource: Int = R.raw.snakesound
     var isStart: Boolean = false
     var isInHome: Boolean = false
 
-    var isDownloadStarted : Boolean = false
-
-    var hashCode :String = ""
-
     val placeName : ArrayList<String> = ArrayList()
-
-
-    var startButtonColorResource : Int = R.color.darkPurple
-    var startButtonBackgroundColorResource : Int = R.color.lightPurple
 
     var homeScreenItem = arrayListOf(
         HomeScreenItems(
@@ -46,10 +33,6 @@ object Constant {
             R.drawable.carfinalimage,
         )
     )
-
-    var bikeClickLotiAnimationHasBeenSeen : Boolean = false
-
-    //var insectHomeScreenItem = initializeInsectHomeScreenItem()
     fun initializeInsectHomeScreenItem(): List<InsectsScreenItems> {
 
         return arrayListOf(
@@ -65,10 +48,8 @@ object Constant {
                 R.drawable.housefly_image, false,
             )
         )
-
     }
 
-    var animationCompleted: Boolean = false
 
 
     var fartPlaylistItems = arrayListOf(

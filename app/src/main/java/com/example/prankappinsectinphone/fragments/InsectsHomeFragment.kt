@@ -1,9 +1,7 @@
 package com.example.prankappinsectinphone.fragments
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.net.Uri
@@ -16,17 +14,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.prankappinsectinphone.adapters.InsectHomeScreenAdapter
 import com.example.prankappinsectinphone.databinding.FragmentInsectsHomeBinding
-import com.example.prankappinsectinphone.`interface`.ColorSelectionListener
+import com.example.prankappinsectinphone.`interface`.OnColorSelectionListner
 import com.example.prankappinsectinphone.service.OverlayService
 import com.example.prankappinsectinphone.utils.Constant
 
 
-class InsectsHomeFragment : Fragment(), ColorSelectionListener {
+class InsectsHomeFragment : Fragment(), OnColorSelectionListner {
     private val binding: FragmentInsectsHomeBinding by lazy {
         FragmentInsectsHomeBinding.inflate(layoutInflater)
     }
@@ -36,6 +33,9 @@ class InsectsHomeFragment : Fragment(), ColorSelectionListener {
     private val PREFS_NAME = "insect_prefs"
     private var startButtonColorResourceID :Int? = null
     private var startButtonBackgroundColorResourceID :Int? = null
+
+
+
 
 
     var startButtonColorEditor : SharedPreferences.Editor? = null

@@ -14,8 +14,6 @@ class SplashFragment : Fragment() {
     private val binding: FragmentSplashBinding by lazy {
         FragmentSplashBinding.inflate(layoutInflater)
     }
-    private var onpauseLogic = false
-    private var splashJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

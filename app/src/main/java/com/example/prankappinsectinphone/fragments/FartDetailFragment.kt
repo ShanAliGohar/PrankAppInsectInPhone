@@ -2,7 +2,6 @@ package com.example.prankappinsectinphone.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.media.AudioManager
@@ -17,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.prankappinsectinphone.R
@@ -41,7 +39,7 @@ class FartDetailFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
 
 
-    private  var isLooping: Boolean = false
+    private var isLooping: Boolean = false
 
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -59,30 +57,21 @@ class FartDetailFragment : Fragment() {
 
         sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         activity?.let { activity ->
-            val volumeChangeReceiver = VolumeReciver(activity, binding.seekBar,binding.volumeIcon)
+            val volumeChangeReceiver = VolumeReciver(activity, binding.seekBar, binding.volumeIcon)
             activity.registerReceiver(volumeChangeReceiver, IntentFilter().apply {
                 addAction("android.media.VOLUME_CHANGED_ACTION")
             })
         }
 
-/*
-        if (!sharedPreferences.getBoolean("fartClickAnimationSeen", false)) {
-            binding.clickAnimation.visibility = View.VISIBLE
-            // Mark animation as seen
-            sharedPreferences.edit().putBoolean("fartClickAnimationSeen", true).apply()
-        } else {
-            binding.clickAnimation.visibility = View.GONE
-        }*/
-
 
         binding.loop.setOnClickListener {
-            if (!isLooping){
+            if (!isLooping) {
                 startPlaying()
                 mPlayer?.isLooping = true
                 isLooping = true
                 binding.loop.setImageResource(R.drawable.highlightedloop)
-            }else {
-                binding.loop.setImageResource(R.drawable.dimloop)
+            } else {
+                binding.loop.setImageResource(R.drawable.dim_loop)
                 mPlayer?.isLooping = false
                 isLooping = false
             }
@@ -96,7 +85,11 @@ class FartDetailFragment : Fragment() {
             val currentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC) ?: 0
             if (currentVolume == 0) {
                 // Volume is currently muted, unmute it
-                audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager?.getStreamMaxVolume(AudioManager.STREAM_MUSIC) ?: 0, 0)
+                audioManager?.setStreamVolume(
+                    AudioManager.STREAM_MUSIC,
+                    audioManager?.getStreamMaxVolume(AudioManager.STREAM_MUSIC) ?: 0,
+                    0
+                )
                 binding.volumeIcon.setImageResource(R.drawable.volume_icon)
             } else {
                 // Volume is not muted, mute it
@@ -108,7 +101,7 @@ class FartDetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if(isLooping){
+        if (isLooping) {
             startPlaying()
             binding.loop.setImageResource(R.drawable.highlightedloop)
             mPlayer?.isLooping = true
@@ -119,19 +112,7 @@ class FartDetailFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         mPlayer?.pause()
-        binding.fartLoti.pauseAnimation()
-     /*       binding.loop.setImageResource(R.drawable.dimloop)
-            mPlayer?.isLooping = false
-            isLooping = false
-*/
-
-
-        /* activity?.let { activity ->
-             val volumeReceiver = VolumeReciver(activity,binding.seekBar)
-             activity.unregisterReceiver(volumeReceiver)
-         }*/
-
-
+        binding.fartLotti.pauseAnimation()
     }
 
     private fun setupMediaPlayer() {
@@ -146,7 +127,7 @@ class FartDetailFragment : Fragment() {
         val currVolume: Int? = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
         currVolume?.let {
             binding.seekBar.progress = it
-           // onVolumeUpdate(it)
+            // onVolumeUpdate(it)
             Log.d("TAG", "currvolume:$it ")
 
         }
@@ -161,8 +142,7 @@ class FartDetailFragment : Fragment() {
                         AudioManager.FLAG_PLAY_SOUND
                     )
                     Log.d("TAG", "myprogress:$progress ")
-                //    onVolumeUpdate(progress)
-
+                    //    onVolumeUpdate(progress)
                 }
             }
 
@@ -175,8 +155,8 @@ class FartDetailFragment : Fragment() {
 
 
     private fun setupFartLotiClickListener() {
-        binding.fartLoti.setOnLongClickListener(speakHoldListener);
-        binding.fartLoti.setOnTouchListener(speakTouchListener);
+        binding.fartLotti.setOnLongClickListener(speakHoldListener);
+        binding.fartLotti.setOnTouchListener(speakTouchListener);
     }
 
     private fun setupWaveformSeekBar() {
@@ -220,39 +200,40 @@ class FartDetailFragment : Fragment() {
     private fun startPlaying() {
         if (mPlayer != null && mPlayer?.isPlaying == true) {
             mPlayer?.pause()
-            binding.fartLoti.pauseAnimation()
-            binding.fartLoti.loop(false)
-        }
-        else if (mPlayer != null) {
+            binding.fartLotti.pauseAnimation()
+            binding.fartLotti.loop(false)
+        } else if (mPlayer != null) {
             mPlayer?.start()
-            binding.fartLoti.playAnimation()
-            binding.fartLoti.loop(true)
+            binding.fartLotti.playAnimation()
+            binding.fartLotti.loop(true)
         } else {
             try {
 
                 mPlayer = rawResourceId?.let { MediaPlayer.create(requireContext(), it) }
                 mPlayer?.start()
-                binding.fartLoti.playAnimation()
-                binding.fartLoti.loop(true)            } catch (e: IOException) {
+                binding.fartLotti.playAnimation()
+                binding.fartLotti.loop(true)
+            } catch (e: IOException) {
                 Log.e("Log", "prepare() failed")
             }
         }
         mPlayer?.setOnCompletionListener {
-            binding.fartLoti.pauseAnimation()
-            if (!isLooping){
+            binding.fartLotti.pauseAnimation()
+            if (!isLooping) {
 
                 mPlayer?.seekTo(0)
-                binding.fartLoti.progress = 0.0f
+                binding.fartLotti.progress = 0.0f
 
             }
 
         }
     }
+
     private val speakHoldListener = View.OnLongClickListener {
         // Do something when your hold starts here.
         startPlaying()
-        binding.fartLoti.animate()
-      //  binding.clickAnimation.visibility = View.GONE
+        binding.fartLotti.animate()
+        //  binding.clickAnimation.visibility = View.GONE
         isSpeakButtonLongPressed = true
         true
     }
@@ -265,7 +246,7 @@ class FartDetailFragment : Fragment() {
             if (isSpeakButtonLongPressed) {
                 // Do something when the button is released.
                 mPlayer?.pause()
-                binding.fartLoti.pauseAnimation()
+                binding.fartLotti.pauseAnimation()
                 isSpeakButtonLongPressed = false
             }
         }

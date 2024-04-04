@@ -10,8 +10,6 @@
     android:backgroundTint="#FFC964"
     android:padding="16dp">
 
-    <!-- Top view with match_parent width and 100dp height -->
-
 
     <View
         android:id="@+id/bottom_view"
@@ -19,7 +17,7 @@
         android:layout_height="50dp"
         android:background="@drawable/rounded_bg"
         android:backgroundTint="#FF7E00"
-        android:foreground="@drawable/wripple_effect"
+        android:foreground="@drawable/ripple_effect"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,9 +27,9 @@
         android:id="@+id/startTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
+        android:text="@string/start"
         android:fontFamily="@font/elsie_black"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/bottom_view"
         app:layout_constraintEnd_toEndOf="@+id/bottom_view"

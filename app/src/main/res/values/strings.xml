@@ -2,4 +2,20 @@
     <string name="app_name">PrankAppInsectInPhone</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="start">Start</string>
+    <string name="_0">0</string>
+    <string name="please_wait_file_is_downloading">Please wait, file is downloading...</string>
+    <string name="prank_app_n_insect_in_phone">Prank App \n Insect In Phone</string>
+    <string name="share_app">Share App</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="feedback">Feedback</string>
+    <string name="are_you_sure_you_want_to_exit">Are You Sure You Want to Exit !</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="bike_sounds_playlist">Bike Sounds Playlist</string>
+    <string name="tap_and_hold_on_icon_to_start">Tap and hold on icon to start</string>
+    <string name="todo">TODO</string>
+    <string name="bike_sounds_playlists">Bike Sounds Playlist</string>
+    <string name="car_sounds_playlist">Car Sounds Playlist</string>
+    <string name="fart_sounds_playlist">Fart Sounds Playlist</string>
 </resources>

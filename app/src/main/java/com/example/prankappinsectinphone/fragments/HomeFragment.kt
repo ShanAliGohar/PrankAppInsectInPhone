@@ -1,5 +1,6 @@
 package com.example.prankappinsectinphone.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,12 @@ class HomeFragment : Fragment() {
     ): View {
         setupRecyclerView()
         setupDrawerIconClickListener()
+
+        binding.myDrawer.privacyPolicyText.setOnClickListener {
+            val myIntent: Intent = Intent.parseUri("https://sites.google.com/view/prank-insect-privacy-policy/home", Intent.URI_INTENT_SCHEME)
+            startActivity(myIntent)
+        }
+
         return binding.root
     }
 

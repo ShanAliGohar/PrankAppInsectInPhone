@@ -14,24 +14,26 @@
         android:src="@drawable/home_fragment_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/todo" />
 
     <ImageView
         android:id="@+id/back_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:foreground="@drawable/wripple_effect"
+        android:foreground="@drawable/ripple_effect"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:srcCompat="@drawable/back_icon" />
+        app:srcCompat="@drawable/back_icon"
+        android:contentDescription="@string/todo"/>
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bike Sounds Playlist"
+        android:text="@string/bike_sounds_playlists"
         android:fontFamily="@font/elsie_black"
         android:textSize="18sp"
         android:textColor="#3D1B64"
@@ -54,6 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
+        android:contentDescription="@string/todo"
         android:src="@drawable/home_fragment_background"
         app:layout_constraintEnd_toEndOf="parent"
         android:rotation="180"

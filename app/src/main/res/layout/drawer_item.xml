@@ -12,6 +12,7 @@
         android:layout_height="150dp"
         android:layout_marginStart="70dp"
         android:layout_marginTop="80dp"
+        android:contentDescription="@string/app_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/drawer_main_icon" />
@@ -21,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/elsie_black"
-        android:text="Prank App \n Insect In Phone"
+        android:text="@string/prank_app_n_insect_in_phone"
         android:textAlignment="center"
         android:textSize="18sp"
         android:textColor="@color/black"
@@ -36,6 +37,7 @@
         android:layout_marginStart="70dp"
         android:layout_marginTop="70dp"
         android:src="@drawable/share_icon"
+        android:contentDescription="@string/app_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -44,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:text="Share App"
+        android:text="@string/share_app"
         android:fontFamily="@font/elsie"
         android:textColor="@color/black"
         android:textSize="18sp"
@@ -58,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:src="@drawable/rate_icon"
+        android:contentDescription="@string/app_name"
         app:layout_constraintStart_toStartOf="@+id/share_icon"
         app:layout_constraintTop_toBottomOf="@id/share_icon" />
 
@@ -65,7 +68,8 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rate Us"
+        android:text="@string/rate_us"
+        android:contentDescription="@string/app_name"
         android:textColor="@color/black"
         android:fontFamily="@font/elsie"
         android:textSize="18sp"
@@ -79,6 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:src="@drawable/feedback_icon"
+        android:contentDescription="@string/app_name"
         app:layout_constraintStart_toStartOf="@+id/rate_icon"
         app:layout_constraintTop_toBottomOf="@id/rate_icon" />
 
@@ -87,13 +92,36 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Feedback"
+        android:text="@string/feedback"
         android:textColor="@color/black"
         android:fontFamily="@font/elsie"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/feedback_icon"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="@+id/feedback_icon" />
+    <ImageView
+        android:id="@+id/privacy_policy_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/feedback_icon"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintStart_toStartOf="@+id/rate_icon"
+        app:layout_constraintTop_toBottomOf="@id/feedback_icon" />
+
+
+    <TextView
+        android:id="@+id/privacy_policy_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/elsie"
+        android:text="Privacy Policy"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/privacy_policy_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/privacy_policy_icon" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

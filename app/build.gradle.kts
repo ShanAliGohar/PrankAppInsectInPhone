@@ -53,7 +53,7 @@ dependencies {
     implementation ("com.github.imnirdst:iivisu:1.1.0")
 
     implementation ("com.github.massoudss:waveformSeekBar:5.0.2")
-    implementation ("com.github.lincollincol:amplituda:2.2.2") // or newer version
+    implementation ("com.github.lincollincol:amplituda:2.2.2")
 
     implementation ("com.airbnb.android:lottie:6.0.0")
 

@@ -31,7 +31,6 @@ class VolumeReciver(private val activity: Activity, private val seekBar: SeekBar
                 volumeIcon.setImageResource(R.drawable.volume_icon)
 
             }
-            //(context as MainActivity).onVolumeUpdate(currVolume)
         }
     }
 }

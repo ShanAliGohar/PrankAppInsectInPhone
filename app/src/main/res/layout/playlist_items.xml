@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:scaleType="fitXY"
-        android:foreground="@drawable/wripple_effect"
+        android:foreground="@drawable/ripple_effect"
         android:src="@drawable/car_pl_final"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

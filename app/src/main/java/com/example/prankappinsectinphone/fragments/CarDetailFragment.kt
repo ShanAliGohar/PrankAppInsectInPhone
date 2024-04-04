@@ -76,7 +76,7 @@ class CarDetailFragment : Fragment() {
                 isLooping = true
                 binding.loop.setImageResource(R.drawable.highlightedloop)
             }else {
-                binding.loop.setImageResource(R.drawable.dimloop)
+                binding.loop.setImageResource(R.drawable.dim_loop)
                 mPlayer?.isLooping = false
                 isLooping = false
             }
@@ -97,7 +97,7 @@ class CarDetailFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         mPlayer?.pause()
-        binding.fartLoti.pauseAnimation()
+        binding.fartLotti.pauseAnimation()
         /*       binding.loop.setImageResource(R.drawable.dimloop)
                mPlayer?.isLooping = false
                isLooping = false
@@ -158,8 +158,8 @@ class CarDetailFragment : Fragment() {
 
     private fun setupFartLotiClickListener() {
 
-        binding.fartLoti.setOnLongClickListener(speakHoldListener);
-        binding.fartLoti.setOnTouchListener(speakTouchListener);
+        binding.fartLotti.setOnLongClickListener(speakHoldListener);
+        binding.fartLotti.setOnTouchListener(speakTouchListener);
     }
 
     private fun setupWaveformSeekBar() {
@@ -205,29 +205,29 @@ class CarDetailFragment : Fragment() {
     private fun startPlaying() {
         if (mPlayer != null && mPlayer?.isPlaying == true) {
             mPlayer?.pause()
-            binding.fartLoti.pauseAnimation()
-            binding.fartLoti.loop(false)
+            binding.fartLotti.pauseAnimation()
+            binding.fartLotti.loop(false)
         }
         else if (mPlayer != null) {
             mPlayer?.start()
-            binding.fartLoti.playAnimation()
-            binding.fartLoti.loop(true)
+            binding.fartLotti.playAnimation()
+            binding.fartLotti.loop(true)
         } else {
             try {
 
                 mPlayer = rawResourceId?.let { MediaPlayer.create(requireContext(), it) }
                 mPlayer?.start()
-                binding.fartLoti.playAnimation()
-                binding.fartLoti.loop(true)            } catch (e: IOException) {
+                binding.fartLotti.playAnimation()
+                binding.fartLotti.loop(true)            } catch (e: IOException) {
                 Log.e("Log", "prepare() failed")
             }
         }
         mPlayer?.setOnCompletionListener {
-            binding.fartLoti.pauseAnimation()
+            binding.fartLotti.pauseAnimation()
             if (!isLooping){
 
                 mPlayer?.seekTo(0)
-                binding.fartLoti.progress = 0.0f
+                binding.fartLotti.progress = 0.0f
 
             }
         }
@@ -236,7 +236,7 @@ class CarDetailFragment : Fragment() {
     private val speakHoldListener = View.OnLongClickListener {
         // Do something when your hold starts here.
         startPlaying()
-        binding.fartLoti.animate()
+        binding.fartLotti.animate()
        // binding.clickAnimation.visibility = View.GONE
         isSpeakButtonLongPressed = true
         true
@@ -250,7 +250,7 @@ class CarDetailFragment : Fragment() {
             if (isSpeakButtonLongPressed) {
                 // Do something when the button is released.
                 mPlayer?.pause()
-                binding.fartLoti.pauseAnimation()
+                binding.fartLotti.pauseAnimation()
                 isSpeakButtonLongPressed = false
             }
         }
