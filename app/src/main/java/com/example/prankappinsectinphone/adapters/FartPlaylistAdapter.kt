@@ -27,24 +27,7 @@ class FartPlaylistAdapter(private val context: Context, private val fartPlaylist
         holder.fartImage.setImageResource(fartItem.imageResource)
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
-            when (position) {
-                0 -> bundle.putInt("rawResourceId", R.raw.fart1)
-                1 -> bundle.putInt("rawResourceId", R.raw.fart2)
-                2 -> bundle.putInt("rawResourceId", R.raw.fart3)
-                3 -> bundle.putInt("rawResourceId", R.raw.fart4)
-                4 -> bundle.putInt("rawResourceId", R.raw.fart5)
-                5 -> bundle.putInt("rawResourceId", R.raw.fart6)
-                6 -> bundle.putInt("rawResourceId", R.raw.fart7)
-                7 -> bundle.putInt("rawResourceId", R.raw.fart8)
-                8 -> bundle.putInt("rawResourceId", R.raw.fart9)
-                9 -> bundle.putInt("rawResourceId", R.raw.fart10)
-                10 -> bundle.putInt("rawResourceId", R.raw.fart11)
-                11 -> bundle.putInt("rawResourceId", R.raw.fart12)
-                12 -> bundle.putInt("rawResourceId", R.raw.fart13)
-                13 -> bundle.putInt("rawResourceId", R.raw.fart18)
-                14 -> bundle.putInt("rawResourceId", R.raw.fart19)
-                15 -> bundle.putInt("rawResourceId", R.raw.fart20)
-            }
+            bundle.putInt("rawResourceId", fartItem.musicResources)
             holder.itemView.findNavController().navigate(
                 R.id.action_fartPlaylistFragment_to_fartDetailFragment,
                 bundle

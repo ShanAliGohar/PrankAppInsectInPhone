@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:src="@drawable/carousel_rounded_bg">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/main_card"
+        android:layout_width="350dp"
+        android:layout_height="230dp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" />
+
+    <TextView
+        android:id="@+id/exit_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Rate Us"
+        android:elevation="2dp"
+        android:textColor="#2C43B5"
+        app:layout_constraintBottom_toTopOf="@+id/star_one"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/start_five"
+        app:layout_constraintStart_toStartOf="@+id/star_one"
+        app:layout_constraintTop_toBottomOf="@+id/rateUsIcon" />
+
+    <ImageView
+        android:id="@+id/submit_btn"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/main_card"
+        app:layout_constraintEnd_toEndOf="@+id/main_card"
+        app:layout_constraintStart_toStartOf="@+id/main_card"
+        app:layout_constraintTop_toBottomOf="@+id/star_one"
+        app:srcCompat="@drawable/stroke_bg"
+        app:tint="@color/yellow" />
+
+    <TextView
+        android:id="@+id/yes_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Submit"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/submit_btn"
+        app:layout_constraintEnd_toEndOf="@+id/submit_btn"
+        app:layout_constraintStart_toStartOf="@+id/submit_btn"
+        app:layout_constraintTop_toTopOf="@+id/submit_btn" />
+
+    <ImageView
+        android:id="@+id/star_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:elevation="2dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/submit_btn"
+        app:layout_constraintEnd_toStartOf="@id/start_two"
+        app:layout_constraintStart_toStartOf="@+id/submit_btn"
+        app:layout_constraintTop_toBottomOf="@+id/exit_txt"
+        app:srcCompat="@drawable/rate_star_empty" />
+
+    <ImageView
+        android:id="@+id/start_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/star_one"
+        app:layout_constraintEnd_toStartOf="@+id/start_three"
+        app:layout_constraintStart_toEndOf="@+id/star_one"
+        app:layout_constraintTop_toTopOf="@+id/star_one"
+        app:srcCompat="@drawable/rate_star_empty" />
+
+    <ImageView
+        android:id="@+id/start_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/start_two"
+        app:layout_constraintEnd_toStartOf="@id/start_four"
+        app:layout_constraintStart_toEndOf="@+id/start_two"
+        app:layout_constraintTop_toTopOf="@+id/start_two"
+        app:srcCompat="@drawable/rate_star_empty" />
+
+    <ImageView
+        android:id="@+id/start_four"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/start_three"
+        app:layout_constraintEnd_toStartOf="@+id/start_five"
+        app:layout_constraintStart_toEndOf="@+id/start_three"
+        app:layout_constraintTop_toTopOf="@+id/start_three"
+        app:srcCompat="@drawable/rate_star_empty" />
+
+    <ImageView
+        android:id="@+id/start_five"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/start_four"
+        app:layout_constraintEnd_toEndOf="@+id/submit_btn"
+        app:layout_constraintStart_toEndOf="@+id/start_four"
+        app:layout_constraintTop_toTopOf="@+id/start_four"
+        app:srcCompat="@drawable/rate_star_empty" />
+
+    <ImageView
+        android:id="@+id/rateUsIcon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerCrop"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/exit_txt"
+        app:layout_constraintEnd_toEndOf="@+id/start_five"
+        app:layout_constraintStart_toStartOf="@+id/star_one"
+        app:layout_constraintTop_toTopOf="@+id/main_card"
+        app:srcCompat="@drawable/rate_us_icon" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

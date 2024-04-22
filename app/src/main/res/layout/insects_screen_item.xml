@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:foreground="@drawable/ripple_effect"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/todo" />
 
     <ImageView
         android:id="@+id/tick_icons"
@@ -26,7 +27,8 @@
         android:visibility="gone"
         android:src="@drawable/tick_icon"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        android:contentDescription="@string/todo" />
 
     <ImageView
         android:id="@+id/download_icons"
@@ -36,8 +38,8 @@
         android:layout_marginBottom="32dp"
         android:src="@drawable/downloadable_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/todo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

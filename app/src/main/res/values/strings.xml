@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PrankAppInsectInPhone</string>
+    <string name="app_name">Pranks Spider Prank Car Sounds</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="start">Start</string>
@@ -18,4 +18,13 @@
     <string name="bike_sounds_playlists">Bike Sounds Playlist</string>
     <string name="car_sounds_playlist">Car Sounds Playlist</string>
     <string name="fart_sounds_playlist">Fart Sounds Playlist</string>
+    <string name="fartplaylist">Fart Sounds Playlist</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="prank_app">Prank App</string>
+    <string name="insect_in_mobile_screen">Insect in mobile Screen</string>
+    <string name="starttext">Start</string>
+    <string name="fart_sound">Fart Sound</string>
+    <string name="_1">1</string>
+    <string name="share_app_link">https://play.google.com/store/apps/details?id=com.prankapp.insectonscreen.pranksounds</string>
+
 </resources>

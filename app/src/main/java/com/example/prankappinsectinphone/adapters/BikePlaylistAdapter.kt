@@ -29,22 +29,8 @@ class BikePlaylistAdapter(private val context: Context, private val fartPlaylist
         holder.fartImage.setImageResource(fartItem.imageResource)
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
-            when (position) {
-                0 -> bundle.putInt("rawResourceIdBike", R.raw.bike1)
-                1 -> bundle.putInt("rawResourceIdBike", R.raw.bike2)
-                2 -> bundle.putInt("rawResourceIdBike", R.raw.bike3)
-                3 -> bundle.putInt("rawResourceIdBike", R.raw.bike4)
-                4 -> bundle.putInt("rawResourceIdBike", R.raw.bike5)
-                5 -> bundle.putInt("rawResourceIdBike", R.raw.bike6)
-                6 -> bundle.putInt("rawResourceIdBike", R.raw.bike7)
-                7 -> bundle.putInt("rawResourceIdBike", R.raw.bike8)
-                8 -> bundle.putInt("rawResourceIdBike", R.raw.bike9)
-                9 -> bundle.putInt("rawResourceIdBike", R.raw.bike10)
-                10 -> bundle.putInt("rawResourceIdBike", R.raw.bike11)
-                11 -> bundle.putInt("rawResourceIdBike", R.raw.bike12)
-                12 -> bundle.putInt("rawResourceIdBike", R.raw.bike13)
-                13 -> bundle.putInt("rawResourceIdBike", R.raw.bike14)
-            }
+            bundle.putInt("rawResourceIdBike", fartItem.musicResources)
+
             holder.itemView.findNavController().navigate(
                 R.id.action_bikePlaylistFragment_to_bikeDetailFragment,
                 bundle

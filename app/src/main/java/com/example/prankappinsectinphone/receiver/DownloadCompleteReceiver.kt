@@ -4,9 +4,8 @@ import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.example.prankappinsectinphone.service.OverlayService
 
-class DownloadCompleteReceiver(): BroadcastReceiver() {
+class DownloadCompleteReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if(intent?.action == "android.intent.action.DOWNLOAD_COMPLETE")
         {
@@ -16,5 +15,4 @@ class DownloadCompleteReceiver(): BroadcastReceiver() {
             }
         }
     }
-
 }

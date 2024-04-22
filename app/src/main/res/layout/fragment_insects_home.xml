@@ -14,7 +14,8 @@
         android:src="@drawable/home_fragment_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/todo" />
 
     <ImageView
         android:id="@+id/back_icon"
@@ -25,19 +26,21 @@
         android:src="@drawable/back_icon"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        android:contentDescription="@string/todo" />
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Insect in mobile Screen"
+        android:text="@string/insect_in_mobile_screen"
         android:fontFamily="@font/elsie_black"
         android:textSize="18sp"
         android:textColor="#3D1B64"
         app:layout_constraintBottom_toBottomOf="@+id/back_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/back_icon" />
+        app:layout_constraintTop_toTopOf="@+id/back_icon"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/grid_recycler_view"
@@ -48,6 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/initConstrainLO" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -62,8 +66,6 @@
         android:background="@drawable/rounded_bg"
         android:backgroundTint="@color/lightPurple"
         android:padding="16dp">
-
-        <!-- Top view with match_parent width and 100dp height -->
 
 
         <View
@@ -82,14 +84,16 @@
             android:id="@+id/startTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start"
+            android:text="@string/starttext"
             android:fontFamily="@font/elsie_black"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/bottom_view"
             app:layout_constraintEnd_toEndOf="@+id/bottom_view"
             app:layout_constraintStart_toStartOf="@+id/bottom_view"
             app:layout_constraintTop_toTopOf="@+id/bottom_view" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.prankappinsectinphone.MainActivity
 import com.example.prankappinsectinphone.R
 import com.example.prankappinsectinphone.databinding.FragmentSplashBinding
-import kotlinx.coroutines.*
+
+
 class SplashFragment : Fragment() {
     private val binding: FragmentSplashBinding by lazy {
         FragmentSplashBinding.inflate(layoutInflater)

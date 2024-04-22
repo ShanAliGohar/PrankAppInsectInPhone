@@ -18,7 +18,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/todo" />
 
     <TextView
         android:id="@+id/fartText"
@@ -27,7 +28,7 @@
         android:layout_marginStart="32dp"
         android:elevation="8dp"
         android:fontFamily="@font/elsie_black"
-        android:text="Fart Sound"
+        android:text="@string/fart_sound"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/image_fart"
@@ -42,11 +43,12 @@
         android:layout_marginStart="16dp"
         android:elevation="9dp"
         android:fontFamily="@font/elsie_black"
-        android:text="1"
+        android:text="@string/_1"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/image_fart"
         app:layout_constraintStart_toStartOf="@+id/image_fart"
         app:layout_constraintTop_toTopOf="@+id/image_fart" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

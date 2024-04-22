@@ -1,3 +1,3 @@
 package com.example.prankappinsectinphone.models
 
-data class PlaylistItem(val fartName: String, val imageResource: Int, val counting: Int)
+data class PlaylistItem(val fartName: String, val imageResource: Int, val counting: Int, val musicResources : Int)

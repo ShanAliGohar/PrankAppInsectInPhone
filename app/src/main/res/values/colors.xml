@@ -22,5 +22,10 @@
     <color name="darkOrange">#FF7E00</color>
     <color name="lightOrange">#FFC964</color>
 
+    <color name="gray">#D7D7D7</color>
+
+    <color name="yellow">#DF8600</color>
+
+
 
 </resources>

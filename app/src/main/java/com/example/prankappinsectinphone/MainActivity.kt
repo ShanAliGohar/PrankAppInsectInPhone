@@ -18,35 +18,32 @@ class MainActivity : AppCompatActivity() {
     var binding: ActivityMainBinding? = null
     var ic: ImageView? = null
 
-
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
-
-         ic = findViewById(R.id.volume_icon)
     }
-    fun onVolumeUpdate(volumeValue  : Int){
-        if ( volumeValue == 0 ){
-           ic?.setImageResource(R.drawable.mutedvolumeicon)
-        } else{
-           ic?.setImageResource(R.drawable.volume_icon)
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (!isInHome)
+        {
+
+            findNavController(R.id.splashFragment).navigateUp()
 
         }
-    }
-    override fun onBackPressed() {
-        if (!isInHome) {
-            findNavController(R.id.splashFragment).navigateUp()
-        } else if (isInHome) {
+
+        else if (isInHome)
+
+        {
             val dialog = Dialog(this)
             dialog.requestWindowFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             dialog.setContentView(R.layout.exit_dialouge)
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            var yesBtn = dialog.findViewById<ImageView>(R.id.yesBtn)
-            var noBtn = dialog.findViewById<ImageView>(R.id.no_btn)
-            var yesText = dialog.findViewById<TextView>(R.id.yes_txt)
-            var noTxt = dialog.findViewById<TextView>(R.id.no_txt)
+            val yesBtn = dialog.findViewById<ImageView>(R.id.yesBtn)
+            val noBtn = dialog.findViewById<ImageView>(R.id.no_btn)
+            val yesText = dialog.findViewById<TextView>(R.id.yes_txt)
+            val noTxt = dialog.findViewById<TextView>(R.id.no_txt)
 
             yesBtn.setOnClickListener {
                 super.onBackPressed()
@@ -67,13 +64,15 @@ class MainActivity : AppCompatActivity() {
             }
 
             dialog.show()
-        }else{
+        }
+
+        else
+
+        {
+
             super.onBackPressed()
 
         }
     }
-
-
-
 
 }
