@@ -11,18 +11,24 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.example.prankappinsectinphone.databinding.ActivityMainBinding
 import com.example.prankappinsectinphone.utils.Constant.isInHome
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 
 
 class MainActivity : AppCompatActivity() {
 
     var binding: ActivityMainBinding? = null
     var ic: ImageView? = null
-
     @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+
+
+
     }
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {

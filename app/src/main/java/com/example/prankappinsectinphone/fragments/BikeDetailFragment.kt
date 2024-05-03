@@ -29,6 +29,8 @@ class BikeDetailFragment : Fragment() {
         FragmentBikeDetailBinding.inflate(layoutInflater)
     }
 
+
+
     private var mPlayer: MediaPlayer? = null
     private val mHandler = Handler()
     private var audioManager: AudioManager? = null

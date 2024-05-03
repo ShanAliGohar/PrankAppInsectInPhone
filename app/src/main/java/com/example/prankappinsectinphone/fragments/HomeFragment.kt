@@ -21,6 +21,9 @@ import com.example.prankappinsectinphone.adapters.HomeScreenAdapter
 import com.example.prankappinsectinphone.databinding.FragmentHomeBinding
 import com.example.prankappinsectinphone.utils.Constant
 import com.example.prankappinsectinphone.utils.Constant.isInHome
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
 
 class HomeFragment : Fragment() {
 
@@ -28,6 +31,8 @@ class HomeFragment : Fragment() {
         FragmentHomeBinding.inflate(layoutInflater)
     }
     private var isSubmitClicked = false
+    private lateinit var analytics: FirebaseAnalytics
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,12 +41,34 @@ class HomeFragment : Fragment() {
         setupRecyclerView()
         setupDrawerIconClickListener()
 
+        analytics = Firebase.analytics
 
         binding.myDrawer.privacyPolicyText.setOnClickListener {
+
+            val bundle = Bundle()
+
+
+            bundle.putString("show_name","clicked")
+
+
+
+            analytics?.logEvent("show_selected", bundle)
+
+
+
             binding.drawerLayout.close()
+
+
+
             val myIntent: Intent = Intent.parseUri("https://sites.google.com/view/prank-insect-privacy-policy/home", Intent.URI_INTENT_SCHEME)
+
+
             startActivity(myIntent)
+
+
         }
+
+
         binding.myDrawer.rateUSText.setOnClickListener {
             binding.drawerLayout.close()
             isSubmitClicked = false
@@ -87,9 +114,7 @@ class HomeFragment : Fragment() {
                         R.drawable.rate_star_empty
                     )
                 )
-
             }
-
             starTwo.setOnClickListener {
                 isSubmitClicked = false
 

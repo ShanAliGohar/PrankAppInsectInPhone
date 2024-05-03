@@ -23,20 +23,29 @@ class HomeScreenAdapter(private val context: Context, private val gridItems: Lis
         holder.itemView.setOnClickListener {
             when (position) {
                 0 -> {
-                    holder.itemView.findNavController()
-                        .navigate(R.id.action_homeFragment_to_fartPlaylistFragment)
+                    if ( holder.itemView.findNavController().currentDestination?.id == R.id.homeFragment){
+                        holder.itemView.findNavController()
+                            .navigate(R.id.action_homeFragment_to_fartPlaylistFragment)
+                    }
+
                 }
                 1 -> {
-                    holder.itemView.findNavController()
-                        .navigate(R.id.action_homeFragment_to_insectsHomeFragment)
+                    if ( holder.itemView.findNavController().currentDestination?.id == R.id.homeFragment) {
+                        holder.itemView.findNavController()
+                            .navigate(R.id.action_homeFragment_to_insectsHomeFragment)
+                    }
                 }
                 2 -> {
-                    holder.itemView.findNavController()
-                        .navigate(R.id.action_homeFragment_to_bikePlaylistFragment)
+                    if ( holder.itemView.findNavController().currentDestination?.id == R.id.homeFragment) {
+                        holder.itemView.findNavController()
+                            .navigate(R.id.action_homeFragment_to_bikePlaylistFragment)
+                    }
                 }
                 3 -> {
-                    holder.itemView.findNavController()
-                        .navigate(R.id.action_homeFragment_to_carPlaylistFragment)
+                   if ( holder.itemView.findNavController().currentDestination?.id == R.id.homeFragment) {
+                        holder.itemView.findNavController()
+                            .navigate(R.id.action_homeFragment_to_carPlaylistFragment)
+                    }
                 }
             }
         }

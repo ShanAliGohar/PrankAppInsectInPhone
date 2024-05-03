@@ -77,12 +77,15 @@ class InsectHomeScreenAdapter(
     }
 
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.insects_screen_item, parent, false)
         sharedPref = context.getSharedPreferences("START_SERVICE", Context.MODE_PRIVATE)
         return ViewHolder(view)
     }
+
+
 
     @SuppressLint("NotifyDataSetChanged")
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -125,9 +128,10 @@ class InsectHomeScreenAdapter(
             }
             if (!cachedFile.exists()) {
                 val imageUrl = when (position) {
+
                     0 -> "https://drive.google.com/uc?export=download&id=1teT7oxLtpgqvzePSN8BE7txYJI-vvtdU"
                     1 -> "https://drive.google.com/uc?export=download&id=1-CJ-fq_u5i5s37YRv6InALLNQEmasqBw"
-                    2 -> "https://drive.google.com/uc?export=download&id=1sA_RBAhOKLw9-BmdFu_VxpAnf5vlbAqb"
+                    2 -> "https://drive.google.com/uc?export=download&id=1OXw62Y3yFQCtlG-mOPpEuxSVIEH9ORlF"
                     3 -> "https://drive.google.com/uc?export=download&id=1fQq0y7H5mr1Ge5uY1EUgg4XQQoslgN87"
                     4 -> "https://drive.google.com/uc?export=download&id=1ZwIUETSzeZyZFnldjS65E9LLpk7ZwJDQ"
                     else -> ""
@@ -203,8 +207,8 @@ class InsectHomeScreenAdapter(
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val tickIcons: ImageView = itemView.findViewById(R.id.tick_icons)
         val downloadIcon: ImageView = itemView.findViewById(R.id.download_icons)
-
     }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun uncheckedAll(position: Int) {
         for (i in gridItems.indices) {
@@ -231,6 +235,8 @@ class InsectHomeScreenAdapter(
         holder: ViewHolder,
         position: Int
     ) {
+
+
         if (placeName == null || cityImage == null) {
             return
         }
@@ -265,8 +271,11 @@ class InsectHomeScreenAdapter(
                         val receivedDownloadId =
                             intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
                         if (downloadId == receivedDownloadId) {
-                            dialog?.dismiss()
-                            holder.downloadIcon.visibility = View.GONE
+                            Handler(Looper.getMainLooper()).post {
+                                dialog?.dismiss()
+                                holder.downloadIcon.visibility = View.GONE
+                            }
+
                         }
                     }
                 }
@@ -284,45 +293,52 @@ class InsectHomeScreenAdapter(
             Toast.makeText(context, "Image download failed.", Toast.LENGTH_SHORT).show()
         }
     }
-
+/////////////////////////////////
     @SuppressLint("Range", "SetTextI18n")
     private fun checkDownloadStatus(holder: ViewHolder, position: Int) {
         val query = downloadId?.let { DownloadManager.Query().setFilterById(it) }
         Thread {
             var downloading = true
             while (downloading) {
-                val cursor = dm?.query(query)
-                if (cursor?.moveToFirst() == true) {
-                    when (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
-                        DownloadManager.STATUS_SUCCESSFUL -> {
-                            downloading = false
-                            Handler(Looper.getMainLooper()).post {
-                                holder.downloadIcon.visibility = View.GONE
-                                saveDownloadIconVisibility(position, View.GONE)
-                                dialog?.dismiss()
+                if (dm != null) {
+                    val cursor = dm?.query(query)
+                    if (cursor?.moveToFirst() == true) {
+                        when (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
+                            DownloadManager.STATUS_SUCCESSFUL -> {
+                                downloading = false
+                                Handler(Looper.getMainLooper()).post {
+                                    holder.downloadIcon.visibility = View.GONE
+                                    saveDownloadIconVisibility(position, View.GONE)
+                                    dialog?.dismiss()
+                                }
                             }
-                        }
-                        DownloadManager.STATUS_FAILED -> {
-                            downloading = false
-                            Handler(Looper.getMainLooper()).post {
-                                dialog?.dismiss()
+                            DownloadManager.STATUS_FAILED -> {
+                                downloading = false
+                                Handler(Looper.getMainLooper()).post {
+                                    dialog?.let {
+                                        if (it.isShowing) {
+                                            it.dismiss()
+                                        }
+                                    }
+                                }
                             }
-                        }
-                        else -> {
-                            val bytesDownloaded =
-                                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
-                            val bytesTotal =
-                                cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
-                            val progress =
-                                (bytesDownloaded.toFloat() / bytesTotal.toFloat() * 100).toInt()
-                            Handler(Looper.getMainLooper()).post {
-                                percent?.text = "$progress%"
-                                progressBar?.progress = progress
+                            else -> {
+                                val bytesDownloaded =
+                                    cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
+                                val bytesTotal =
+                                    cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
+                                val progress =
+                                    (bytesDownloaded.toFloat() / bytesTotal.toFloat() * 100).toInt()
+                                Handler(Looper.getMainLooper()).post {
+                                    percent?.text = "$progress%"
+                                    progressBar?.progress = progress
+                                }
                             }
                         }
                     }
+                    cursor?.close()
+                } else {
                 }
-                cursor?.close()
             }
         }.start()
     }
@@ -341,16 +357,13 @@ class InsectHomeScreenAdapter(
             View.VISIBLE
         )
     }
-
     @SuppressLint("MissingPermission")
     private fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
         val network = connectivityManager.activeNetwork ?: return false
         val capabilities =
             connectivityManager.getNetworkCapabilities(network) ?: return false
-
         return when {
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
@@ -382,5 +395,6 @@ class InsectHomeScreenAdapter(
         editor.putInt("constant_resource_music", resource)
         editor.apply()
     }
+
 }
 
